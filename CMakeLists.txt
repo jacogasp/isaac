@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 add_library(isaac
-  src/defaults.cpp
   src/game.cpp
   src/components/component.cpp
   src/components/game_object.cpp
@@ -25,10 +24,12 @@ add_library(isaac
   src/scene/scene.cpp
   src/scene/scene_manager.cpp
   src/system/cyclic_iterator.cpp
+  src/system/defaults.cpp
   src/system/logger.cpp
   src/system/observer.cpp
   src/system/service_locator.cpp
   src/system/thread.cpp
+  src/system/world.cpp
 )
 
 add_subdirectory(tests)
