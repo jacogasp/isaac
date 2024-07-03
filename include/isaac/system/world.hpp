@@ -15,7 +15,7 @@ class World
   void render();
 
  public:
-  World();
+  void init();
   void game_loop();
 };
 } // namespace isaac

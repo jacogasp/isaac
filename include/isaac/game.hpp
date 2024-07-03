@@ -5,11 +5,15 @@
 #include <memory>
 
 namespace isaac {
+class Scene;
+class World;
 class Game
 {
-  std::unique_ptr<World> m_world;
+  World m_world{};
+  std::unique_ptr<Scene> m_main_scene;
 
  public:
+  void set_scene(std::unique_ptr<Scene> scene);
   int run();
 
  private:
