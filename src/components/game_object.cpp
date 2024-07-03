@@ -50,4 +50,9 @@ vec3 GameObject::get_position() const
 {
   return m_position;
 }
+void GameObject::add_child(GameObject child)
+{
+  m_children.push_back(std::move(child));
 }
+
+} // namespace isaac
