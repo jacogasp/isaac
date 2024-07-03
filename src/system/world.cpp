@@ -3,13 +3,33 @@
 #include "system/service_locator.hpp"
 
 #include <algorithm>
+#include <cassert>
+#include <stdexcept>
 
 namespace isaac {
-World::World()
+void World::init()
 {
-  m_scene_manager    = ServiceLocator<SceneManager>::get_service();
   auto window_server = ServiceLocator<WindowServer>::get_service();
   m_window           = window_server->get_window();
+
+  m_scene_manager = ServiceLocator<SceneManager>::get_service();
+  if (m_scene_manager->get_current_scene() == nullptr) {
+    throw std::runtime_error("no scene found");
+  }
+  auto scene        = m_scene_manager->get_current_scene();
+  auto& game_objects = scene->get_game_objects();
+  std::for_each(game_objects.begin(), game_objects.end(),
+                [](auto& go) { go.start(); });
+}
+
+void World::game_loop()
+{
+  while (m_window->isOpen()) {
+    m_window->clear();
+    input();
+    update();
+    render();
+  }
 }
 
 void World::input()
@@ -26,25 +46,15 @@ void World::input()
 void World::update()
 {
   auto current_scene = m_scene_manager->get_current_scene();
+  assert(current_scene && "current scene is null");
+
   auto& game_objects = current_scene->get_game_objects();
-  // std::for_each(game_objects.begin(), game_objects.end(),
-  //               [](auto& game_object) {
-  //                 game_object.update(0.01);
-  //               });
+  std::for_each(game_objects.begin(), game_objects.end(),
+                [](auto& game_object) { game_object.update(0.01); });
 }
 
 void World::render()
 {
   m_window->display();
-}
-
-void World::game_loop()
-{
-  while (m_window->isOpen()) {
-    m_window->clear();
-    input();
-    update();
-    render();
-  }
 }
 } // namespace isaac
