@@ -1,5 +1,5 @@
-#ifndef GAME_OBJECT_HPP
-#define GAME_OBJECT_HPP
+#ifndef COMPONENTS_GAME_OBJECT_HPP
+#define COMPONENTS_GAME_OBJECT_HPP
 
 namespace isaac {
 class GameObject

@@ -16,7 +16,7 @@ find_package(SFML COMPONENTS graphics window system REQUIRED)
 add_library(isaac
   src/defaults.cpp
   src/game.cpp
-  src/game_object.cpp
+  src/components/game_object.cpp
   src/physics/geometry_2d.cpp
   src/physics/math.cpp
   src/physics/matrix.cpp
