@@ -14,6 +14,8 @@ void GameObject::update(float delta)
 {
   std::for_each(m_children.begin(), m_children.end(),
                 [delta](auto& child) { child.update(delta); });
+  std::for_each(m_components.begin(), m_components.end(),
+                [this](auto& component) { component->update(*this); });
   on_update(delta);
 }
 
@@ -55,4 +57,9 @@ void GameObject::add_child(GameObject child)
   m_children.push_back(std::move(child));
 }
 
+Component* GameObject::add_component(std::unique_ptr<Component> component)
+{
+  m_components.push_back(std::move(component));
+  return m_components.back().get();
+}
 } // namespace isaac
