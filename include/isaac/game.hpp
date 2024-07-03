@@ -2,11 +2,12 @@
 #define ISAAC_GAME_HPP
 
 #include "system/world.hpp"
+#include <memory>
 
 namespace isaac {
 class Game
 {
-  World m_world{};
+  std::unique_ptr<World> m_world;
 
  public:
   int run();
