@@ -6,15 +6,28 @@
 #include <memory>
 #include <utility>
 
+class Player : public isaac::GameObject
+{
+  sf::CircleShape* m_shape;
+  void on_start() override
+  {
+    auto sprite_renderer = make_component<isaac::SpriteRenderer>();
+    m_shape              = sprite_renderer->make_shape<sf::CircleShape>();
+    m_shape->setRadius(50);
+    m_shape->setFillColor({255, 255, 255});
+  }
+
+  void on_update(float delta) override
+  {
+    auto position = m_shape->getPosition();
+    m_shape->setPosition(position + sf::Vector2{10 * delta, 10 * delta});
+  }
+};
+
 auto create_scene()
 {
-  isaac::GameObject go;
-  auto scene           = std::make_unique<isaac::Scene>();
-  auto sprite_renderer = go.make_component<isaac::SpriteRenderer>();
-  auto shape           = sprite_renderer->make_shape<sf::CircleShape>();
-  shape->setRadius(50);
-  shape->setFillColor({255, 255, 255});
-  scene->add_game_object(std::move(go));
+  auto scene = std::make_unique<isaac::Scene>();
+  scene->make_game_object<Player>();
   return scene;
 }
 
