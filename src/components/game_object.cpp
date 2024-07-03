@@ -23,19 +23,19 @@ void GameObject::enable()
 {
   std::for_each(m_children.begin(), m_children.end(),
                 [](auto& child) { child.enable(); });
-  m_disabled = false;
+  m_enabled = true;
 }
 
 void GameObject::disable()
 {
   std::for_each(m_children.begin(), m_children.end(),
                 [](auto& child) { child.disable(); });
-  m_disabled = true;
+  m_enabled = false;
 }
 
 bool GameObject::enabled() const
 {
-  return !m_disabled;
+  return !m_enabled;
 }
 
 void GameObject::set_position(vec3 position)
