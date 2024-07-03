@@ -49,5 +49,4 @@ class Observable
   }
 };
 } // namespace isaac
-
 #endif

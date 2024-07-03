@@ -23,5 +23,4 @@ inline constexpr T clamp(T val, T min, T max)
   return std::min(std::max(val, min), max);
 }
 } // namespace isaac
-
 #endif

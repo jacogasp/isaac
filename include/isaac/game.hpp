@@ -21,5 +21,4 @@ class Game
   void cleanup();
 };
 } // namespace isaac
-
 #endif

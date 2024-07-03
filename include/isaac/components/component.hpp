@@ -11,5 +11,4 @@ class Component
   virtual void update(GameObject& game_object) {};
 };
 } // namespace isaac
-
 #endif

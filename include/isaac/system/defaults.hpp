@@ -11,5 +11,4 @@ class Defaults
   static constexpr float k_max_fps     = 60;
 };
 } // namespace isaac
-
 #endif

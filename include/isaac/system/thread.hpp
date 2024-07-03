@@ -25,5 +25,4 @@ class thread_guard
 };
 
 } // namespace isaac
-
 #endif

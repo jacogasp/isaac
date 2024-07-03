@@ -57,5 +57,4 @@ struct cyclic_iterator
   }
 };
 } // namespace isaac
-
 #endif
