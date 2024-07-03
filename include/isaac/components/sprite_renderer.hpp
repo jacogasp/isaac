@@ -13,7 +13,7 @@ namespace isaac {
 using Shape_ptr = std::unique_ptr<sf::Shape>;
 class SpriteRenderer : public Component
 {
-  std::vector<Shape_ptr> m_shapes{};
+  Shape_ptr m_shape;
   WindowServer* m_window_server;
 
  public:
@@ -26,8 +26,8 @@ class SpriteRenderer : public Component
 template<typename Shape>
 Shape* SpriteRenderer::make_shape()
 {
-  m_shapes.push_back(std::make_unique<Shape>());
-  return static_cast<Shape*>(m_shapes.back().get());
+  m_shape = std::make_unique<Shape>();
+  return static_cast<Shape*>(m_shape.get());
 }
 } // namespace isaac
 #endif

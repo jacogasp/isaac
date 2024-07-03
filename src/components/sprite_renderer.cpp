@@ -1,6 +1,5 @@
 #include "components/sprite_renderer.hpp"
 
-#include <algorithm>
 #include <cassert>
 #include <utility>
 
@@ -15,7 +14,8 @@ void SpriteRenderer::update(GameObject&)
 {
   auto window = m_window_server->get_window();
   assert(window && "window server is null");
-  std::for_each(m_shapes.begin(), m_shapes.end(),
-                [window](auto& shape) { window->draw(*shape); });
+  if (m_shape) {
+    window->draw(*m_shape);
+  }
 }
 } // namespace isaac
