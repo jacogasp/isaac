@@ -29,6 +29,7 @@ class GameObject
   [[nodiscard]] bool enabled() const;
   void set_position(vec3 position);
   [[nodiscard]] vec3 get_position() const;
+  void add_child(GameObject child);
 };
 } // namespace isaac
 #endif
