@@ -22,6 +22,8 @@ add_library(isaac
   src/physics/math.cpp
   src/physics/matrix.cpp
   src/physics/vector.cpp
+  src/scene/scene.cpp
+  src/scene/scene_manager.cpp
   src/system/cyclic_iterator.cpp
   src/system/logger.cpp
   src/system/observer.cpp

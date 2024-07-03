@@ -11,7 +11,7 @@ namespace isaac {
 class GameObject
 {
   vec3 m_position{};
-  bool m_disabled = false;
+  bool m_enabled = false;
   std::vector<GameObject> m_children{};
   std::vector<std::unique_ptr<Component>> m_components{};
 
