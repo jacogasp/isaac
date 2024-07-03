@@ -34,7 +34,12 @@ class GameObject
   void set_position(vec3 position);
   [[nodiscard]] vec3 get_position() const;
   void add_child(GameObject child);
-  Component* add_component(std::unique_ptr<Component> component);
+  template<typename T>
+  T* make_component()
+  {
+    m_components.push_back(std::make_unique<T>());
+    return static_cast<T*>(m_components.back().get());
+  };
   template<typename T>
   T get_component() const
   {
