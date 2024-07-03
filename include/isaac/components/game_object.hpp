@@ -16,9 +16,11 @@ class GameObject
   virtual void on_update(float delta) {};
 
  public:
-  ~GameObject()                 = default;
-  GameObject(GameObject const&) = delete;
-  GameObject(GameObject&&)      = delete;
+  GameObject()                            = default;
+  ~GameObject()                           = default;
+  GameObject(GameObject const&)           = delete;
+  GameObject(GameObject&&)                = default;
+  GameObject operator=(GameObject const&) = delete;
 
   void start();
   void update(float delta);
