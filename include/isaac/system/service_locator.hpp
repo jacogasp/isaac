@@ -2,6 +2,7 @@
 #define SYSTEM_SERVICE_LOCATOR_HPP
 
 #include <memory>
+#include <stdexcept>
 
 namespace isaac {
 template<typename T>
@@ -18,10 +19,15 @@ class ServiceLocator
     return m_service.get();
   }
 
-  template<typename ...Args>
+  template<typename... Args>
   static void register_service(Args... args)
   {
     m_service = std::make_unique<T>(args...);
+  }
+
+  static void release()
+  {
+    m_service.release();
   }
 };
 } // namespace isaac
