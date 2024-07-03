@@ -1,11 +1,13 @@
 #ifndef SYSTEM_SERVICE_LOCATOR_HPP
 #define SYSTEM_SERVICE_LOCATOR_HPP
 
+#include <memory>
+
 namespace isaac {
 template<typename T>
 class ServiceLocator
 {
-  inline static T* m_service;
+  inline static std::unique_ptr<T> m_service;
 
  public:
   static T* get_service()
@@ -13,11 +15,13 @@ class ServiceLocator
     if (m_service == nullptr) {
       throw std::runtime_error("service not found");
     }
-    return m_service;
+    return m_service.get();
   }
-  static void register_service(T* service)
+
+  template<typename ...Args>
+  static void register_service(Args... args)
   {
-    m_service = service;
+    m_service = std::make_unique<T>(args...);
   }
 };
 } // namespace isaac
