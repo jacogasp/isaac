@@ -22,6 +22,7 @@ add_library(isaac
   src/physics/matrix.cpp
   src/physics/vector.cpp
   src/system/cyclic_iterator.cpp
+  src/system/logger.cpp
   src/system/thread.cpp
 )
 
