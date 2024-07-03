@@ -6,8 +6,9 @@ class GameObject;
 class Component
 {
  public:
-  virtual ~Component()                         = default;
-  virtual void update(GameObject& game_object) = 0;
+  virtual ~Component() = default;
+  virtual void start() {};
+  virtual void update(GameObject& game_object) {};
 };
 } // namespace isaac
 
