@@ -19,7 +19,7 @@ void World::init()
   auto scene        = m_scene_manager->get_current_scene();
   auto& game_objects = scene->get_game_objects();
   std::for_each(game_objects.begin(), game_objects.end(),
-                [](auto& go) { go.start(); });
+                [](auto& go) { go->start(); });
 }
 
 void World::game_loop()
@@ -50,7 +50,7 @@ void World::update()
 
   auto& game_objects = current_scene->get_game_objects();
   std::for_each(game_objects.begin(), game_objects.end(),
-                [](auto& game_object) { game_object.update(0.01); });
+                [](auto& game_object) { game_object->update(0.01); });
 }
 
 void World::render()
