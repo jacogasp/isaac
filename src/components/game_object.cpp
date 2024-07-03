@@ -5,6 +5,8 @@
 namespace isaac {
 void GameObject::start()
 {
+  std::for_each(m_components.begin(), m_components.end(),
+                [&](auto& component) { component->start(); });
   std::for_each(m_children.begin(), m_children.end(),
                 [](auto& child) { child.start(); });
   on_start();
@@ -12,10 +14,10 @@ void GameObject::start()
 
 void GameObject::update(float delta)
 {
-  std::for_each(m_children.begin(), m_children.end(),
-                [delta](auto& child) { child.update(delta); });
   std::for_each(m_components.begin(), m_components.end(),
                 [this](auto& component) { component->update(*this); });
+  std::for_each(m_children.begin(), m_children.end(),
+                [delta](auto& child) { child.update(delta); });
   on_update(delta);
 }
 
@@ -55,11 +57,5 @@ vec3 GameObject::get_position() const
 void GameObject::add_child(GameObject child)
 {
   m_children.push_back(std::move(child));
-}
-
-Component* GameObject::add_component(std::unique_ptr<Component> component)
-{
-  m_components.push_back(std::move(component));
-  return m_components.back().get();
 }
 } // namespace isaac
