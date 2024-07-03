@@ -1,6 +1,8 @@
 #include "game.hpp"
 
 #include "defaults.hpp"
+#include "system/logger.hpp"
+#include "system/service_locator.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -28,12 +30,15 @@ int Game::run()
     render();
   }
   cleanup();
+  auto logger = ServiceLocator<Logger>::get_service();
   return EXIT_SUCCESS;
 }
 
 bool Game::start()
 {
-  std::cout << "start game\n";
+  ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
+  auto logger = ServiceLocator<Logger>::get_service();
+  logger->debug("game started");
   return true;
 }
 
@@ -58,6 +63,9 @@ void Game::render()
 }
 
 void Game::cleanup()
-{}
+{
+  auto logger = ServiceLocator<Logger>::get_service();
+  logger->debug("closing game");
+}
 
 } // namespace isaac
