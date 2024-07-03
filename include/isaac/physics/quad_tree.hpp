@@ -257,5 +257,4 @@ class QuadTree : public QuadTreeNode<T, MaxDept, MaxObjectsPerNode>
   using QuadTreeNode<T, MaxDept, MaxObjectsPerNode>::QuadTreeNode;
 };
 } // namespace isaac
-
 #endif

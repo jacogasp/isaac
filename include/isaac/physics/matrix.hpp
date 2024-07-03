@@ -337,5 +337,4 @@ void cut(data_t<(Rows - 1) * (Cols - 1)>& out, data_t<Rows * Cols> const arr,
 }
 
 } // namespace isaac
-
 #endif

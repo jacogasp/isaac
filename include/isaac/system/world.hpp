@@ -19,5 +19,4 @@ class World
   void game_loop();
 };
 } // namespace isaac
-
 #endif

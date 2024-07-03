@@ -64,5 +64,4 @@ class Logger : public LoggerService
   void error(std::string_view const& msg) const override;
 };
 } // namespace isaac
-
 #endif

@@ -35,5 +35,4 @@ class ServiceLocator
   }
 };
 } // namespace isaac
-
 #endif

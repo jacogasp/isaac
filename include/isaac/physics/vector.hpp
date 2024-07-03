@@ -166,5 +166,4 @@ T reflection(T const& v, T const& normal)
 std::ostream& operator<<(std::ostream& o, vec2 const& v);
 std::ostream& operator<<(std::ostream& o, vec3 const& v);
 } // namespace isaac
-
 #endif
