@@ -5,20 +5,20 @@
 namespace isaac {
 void GameObject::start()
 {
+  on_start();
   std::for_each(m_components.begin(), m_components.end(),
                 [&](auto& component) { component->start(); });
   std::for_each(m_children.begin(), m_children.end(),
                 [](auto& child) { child.start(); });
-  on_start();
 }
 
 void GameObject::update(float delta)
 {
+  on_update(delta);
   std::for_each(m_components.begin(), m_components.end(),
                 [this](auto& component) { component->update(*this); });
   std::for_each(m_children.begin(), m_children.end(),
                 [delta](auto& child) { child.update(delta); });
-  on_update(delta);
 }
 
 void GameObject::enable()
