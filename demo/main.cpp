@@ -23,7 +23,7 @@ class Player : public isaac::GameObject
   {
     auto position = m_shape->getPosition();
     auto axis     = isaac::Input::get_axis();
-    auto force    = axis * delta * 300.0f;
+    auto force    = 300.0f * axis * delta;
     m_shape->setPosition(position + sf::Vector2f{force.x, force.y});
   }
 };

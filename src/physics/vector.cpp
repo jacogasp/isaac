@@ -6,26 +6,31 @@
 namespace isaac {
 // clang-format off
 vec2 operator+(vec2 const & l, vec2 const& r) { return {l.x + r.x, l.y + r.y}; }
-vec3 operator+(vec3 const & l, vec3 const& r) { return {l.x + r.x, l.y + r.y, l.z + r.z}; }
 vec2 operator-(vec2 const & l, vec2 const& r) { return {l.x - r.x, l.y - r.y}; }
-vec3 operator-(vec3 const & l, vec3 const& r) { return {l.x - r.x, l.y - r.y, l.z - r.z}; }
 vec2 operator*(vec2 const & l, vec2 const& r) { return {l.x * r.x, l.y * r.y}; }
-vec3 operator*(vec3 const & l, vec3 const& r) { return {l.x * r.x, l.y * r.y, l.z * r.z}; }
+vec2 operator*(float k, vec2 const&v) { return v * k; }
 vec2 operator*(vec2 const& v, float k) { return {v.x * k, v.y * k}; }
-vec3 operator*(vec3 const& v, float k) { return {v.x * k, v.y * k, v.z * k}; }
 vec2 operator/(vec2 const& v, float k) { return {v.x / k, v.y / k}; }
-vec3 operator/(vec3 const& v, float k) { return {v.x / k, v.y / k, v.z / k}; }
 bool operator==(vec2 const& l, vec2 const& r) { return cmp(l.x, r.x) && cmp(l.y, r.y); }
-bool operator==(vec3 const& l, vec3 const& r) { return cmp(l.x, r.x) && cmp(l.y, r.y) && cmp(l.z, r.z); }
 bool operator!=(vec2 const& l, vec2 const& r) { return !(l == r); }
-bool operator!=(vec3 const& l, vec3 const& r) { return !(l == r); }
 vec2& vec2::operator+=(vec2 const& other) { x += other.x; y += other.y; return *this; }
 vec2& vec2::operator-=(vec2 const& other) { x -= other.x; y -= other.y; return *this; }
 vec2& vec2::operator*=(vec2 const& other) { x *= other.x; y *= other.y; return *this; }
+vec2& vec2::operator*=(float k) { x *= k, y *= k; return *this; }
 vec2& vec2::operator/=(float k) { x /= k; y /= k; return *this; }
+
+vec3 operator+(vec3 const & l, vec3 const& r) { return {l.x + r.x, l.y + r.y, l.z + r.z}; }
+vec3 operator-(vec3 const & l, vec3 const& r) { return {l.x - r.x, l.y - r.y, l.z - r.z}; }
+vec3 operator*(vec3 const & l, vec3 const& r) { return {l.x * r.x, l.y * r.y, l.z * r.z}; }
+vec3 operator*(vec3 const& v, float k) { return {v.x * k, v.y * k, v.z * k}; }
+vec3 operator*(float k, vec3 const& v) { return v * k; }
+vec3 operator/(vec3 const& v, float k) { return {v.x / k, v.y / k, v.z / k}; }
+bool operator==(vec3 const& l, vec3 const& r) { return cmp(l.x, r.x) && cmp(l.y, r.y) && cmp(l.z, r.z); }
+bool operator!=(vec3 const& l, vec3 const& r) { return !(l == r); }
 vec3& vec3::operator+=(vec3 const& other) { x += other.x; y += other.y; z += other.z; return *this; }
 vec3& vec3::operator-=(vec3 const& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 vec3& vec3::operator*=(vec3 const& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+vec3& vec3::operator*=(float k) { x *= k; y *= k; z *= k; return *this; }
 vec3& vec3::operator/=(float k) { x /= k; y /= k; z /= k; return *this; }
 // clang-format on
 
