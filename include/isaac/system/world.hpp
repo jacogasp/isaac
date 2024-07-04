@@ -16,7 +16,7 @@ class World : public Observable<sf::Event>
   void render();
 
  public:
-  void init();
+  void start();
   void game_loop();
 };
 } // namespace isaac
