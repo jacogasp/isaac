@@ -60,6 +60,7 @@ TEST_CASE("Vectors 2D")
   vec2 v1{1.0f, -4.2f};
   vec2 v2{-5.0f, 9.3f};
   vec2 v3{};
+  vec2 v4{};
 
   std::cout << "v1: " << v1 << '\n';
   std::cout << "v2: " << v2 << '\n';
@@ -78,8 +79,12 @@ TEST_CASE("Vectors 2D")
   CHECK_EQ(v3, vec2{-5.0, -39.06});
   v3 = v1;
   v3 /= 3.5;
+  v4 = v3;
+  v4 *= 3.5;
   CHECK_EQ(v3, vec2{0.2857142857, -1.2});
-
+  CHECK_EQ(v3 * 3.5, v1);
+  CHECK_EQ(3.5 * v3, v1);
+  CHECK_EQ(v4, v1);
   CHECK_EQ(Float{dot(v1, v2)}, Float{-44.06f});
   CHECK_EQ(Float{v1.dot(v2)}, Float{-44.06f});
   CHECK_EQ(Float{v1.magnitude()}, Float{4.3174066f});
@@ -106,6 +111,7 @@ TEST_CASE("Vectors 3D")
   vec3 v1{1.0f, -4.2f, 5.2f};
   vec3 v2{-5.0f, 9.3f, -4.2f};
   vec3 v3{};
+  vec3 v4{};
 
   std::cout << "v1: " << v1 << '\n';
   std::cout << "v2: " << v2 << '\n';
@@ -126,7 +132,13 @@ TEST_CASE("Vectors 3D")
   CHECK_EQ(v3, vec3{-5.0, -39.06, -21.84});
   v3 = v1;
   v3 /= 3.5;
+  v4 = v3;
+  v4 *= 3.5;
+
   CHECK_EQ(v3, vec3{0.2857142857, -1.2, 1.4857142857});
+  CHECK_EQ(v3 * 3.5, v1);
+  CHECK_EQ(3.5 * v3, v1);
+  CHECK_EQ(v4, v1);
   CHECK_EQ(Float{dot(v1, v2)}, Float{-65.9f});
   CHECK_EQ(Float{v1.dot(v2)}, Float{-65.9f});
   CHECK_EQ(Float{v1.magnitude()}, Float{6.75869801f});
