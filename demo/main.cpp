@@ -2,6 +2,7 @@
 #include <isaac/components/sprite_renderer.hpp>
 #include <isaac/game.hpp>
 #include <isaac/scene/scene.hpp>
+#include <isaac/system/input.hpp>
 
 #include <memory>
 #include <utility>
@@ -9,6 +10,7 @@
 class Player : public isaac::GameObject
 {
   sf::CircleShape* m_shape;
+
   void on_start() override
   {
     auto sprite_renderer = make_component<isaac::SpriteRenderer>();
@@ -20,7 +22,9 @@ class Player : public isaac::GameObject
   void on_update(float delta) override
   {
     auto position = m_shape->getPosition();
-    m_shape->setPosition(position + sf::Vector2{10 * delta, 10 * delta});
+    auto axis     = isaac::Input::get_axis();
+    auto force    = axis * delta * 300.0f;
+    m_shape->setPosition(position + sf::Vector2f{force.x, force.y});
   }
 };
 

@@ -2,6 +2,7 @@
 
 #include "render/window_server.hpp"
 #include "scene/scene_manager.hpp"
+#include "system/input.hpp"
 #include "system/logger.hpp"
 #include "system/service_locator.hpp"
 
@@ -31,18 +32,22 @@ int Game::run()
 bool Game::start()
 {
   try {
-    auto logger =
-        ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
+    ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
     ServiceLocator<WindowServer>::register_service();
+    ServiceLocator<Input>::register_service();
+    ServiceLocator<SceneManager>::register_service();
 
-    auto scene_manager = ServiceLocator<SceneManager>::register_service();
     if (m_main_scene == nullptr) {
       throw std::runtime_error(
           "cannot found any scene to display. Please load a scene with "
           "Game::add_scene before starting the game");
     }
+    
+    auto scene_manager = ServiceLocator<SceneManager>::get_service();
     scene_manager->set_scene(std::move(m_main_scene));
     m_world.init();
+
+    auto logger = ServiceLocator<Logger>::get_service();
     logger->debug("game started");
   } catch (std::exception& e) {
     std::cerr << "cannot initialize game engine because of an error "

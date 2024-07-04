@@ -27,6 +27,7 @@ add_library(isaac
   src/scene/scene_manager.cpp
   src/system/cyclic_iterator.cpp
   src/system/defaults.cpp
+  src/system/input.cpp
   src/system/logger.cpp
   src/system/observer.cpp
   src/system/service_locator.cpp
