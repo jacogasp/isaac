@@ -45,7 +45,7 @@ bool Game::start()
     
     auto scene_manager = ServiceLocator<SceneManager>::get_service();
     scene_manager->set_scene(std::move(m_main_scene));
-    m_world.init();
+    m_world.start();
 
     auto logger = ServiceLocator<Logger>::get_service();
     logger->debug("game started");
