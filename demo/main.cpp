@@ -1,6 +1,7 @@
 #include <isaac/components/game_object.hpp>
 #include <isaac/components/sprite_renderer.hpp>
 #include <isaac/game.hpp>
+#include <isaac/physics/utility.hpp>
 #include <isaac/scene/scene.hpp>
 #include <isaac/system/input.hpp>
 
@@ -24,7 +25,7 @@ class Player : public isaac::GameObject
     auto position = m_shape->getPosition();
     auto axis     = isaac::Input::get_axis();
     auto force    = 300.0f * axis * delta;
-    m_shape->setPosition(position + sf::Vector2f{force.x, force.y});
+    m_shape->setPosition(position + isaac::to_sfml<float>(force));
   }
 };
 

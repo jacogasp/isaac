@@ -21,6 +21,7 @@ add_library(isaac
   src/physics/geometry_2d.cpp
   src/physics/math.cpp
   src/physics/matrix.cpp
+  src/physics/utility.cpp
   src/physics/vector.cpp
   src/render/window_server.cpp
   src/scene/scene.cpp
