@@ -17,6 +17,7 @@ class World : public Observable<sf::Event>
   void input();
   void update();
   void render();
+  void destroy_queued();
 
  public:
   void start();

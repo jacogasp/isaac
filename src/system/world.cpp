@@ -21,7 +21,7 @@ void World::start()
 
   m_window           = window_server->get_window();
   auto scene         = m_scene_manager->get_current_scene();
-  auto& game_objects = scene->get_game_objects();
+  auto& game_objects = scene->root().get_children();
   // start all game objects and their children/components
   std::for_each(game_objects.begin(), game_objects.end(),
                 [](auto& go) { go->start(); });
@@ -34,6 +34,7 @@ void World::game_loop()
     input();
     update();
     render();
+    destroy_queued();
   }
 }
 
@@ -54,8 +55,8 @@ void World::update()
   auto const delta   = m_frame_clock.restart().asSeconds();
   auto current_scene = m_scene_manager->get_current_scene();
   assert(current_scene && "current scene is null");
-
-  auto& game_objects = current_scene->get_game_objects();
+  auto& root         = current_scene->root();
+  auto& game_objects = root.get_children();
   std::for_each(game_objects.begin(), game_objects.end(),
                 [&delta](auto& game_object) { game_object->update(delta); });
 }
@@ -63,5 +64,15 @@ void World::update()
 void World::render()
 {
   m_window->display();
+}
+
+void World::destroy_queued()
+{
+  auto current_scene = m_scene_manager->get_current_scene();
+  assert(current_scene && "current scene is null");
+  auto& root         = current_scene->root();
+  auto& game_objects = root.get_children();
+  std::for_each(game_objects.begin(), game_objects.end(),
+                [](auto& game_object) { game_object->destroy_queued(); });
 }
 } // namespace isaac

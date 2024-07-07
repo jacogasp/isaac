@@ -1,8 +1,16 @@
 #include "components/game_object.hpp"
 
 #include <algorithm>
+#include <cassert>
 
 namespace isaac {
+std::size_t GameObject::s_instance_count = 0;
+
+GameObject::GameObject()
+{
+  ++s_instance_count;
+}
+
 void GameObject::start()
 {
   on_start();
@@ -19,6 +27,30 @@ void GameObject::update(float delta)
                 [this](auto& component) { component->update(*this); });
   std::for_each(m_children.begin(), m_children.end(),
                 [delta](auto& child) { child->update(delta); });
+}
+
+void GameObject::destroy_queued()
+{
+  if (m_child_ids_to_erase.empty()) {
+    return;
+  }
+
+  auto to_erase =
+      std::partition(m_children.begin(), m_children.end(), [&](auto& child) {
+        auto found = std::find_if(
+            m_child_ids_to_erase.begin(), m_child_ids_to_erase.end(),
+            [&child](auto id) { return child->id() == id; });
+        return found == m_child_ids_to_erase.end();
+      });
+  std::for_each(to_erase, m_children.end(),
+                [](auto& child) { child->on_destroy(); });
+  m_children.erase(to_erase, m_children.end());
+  m_child_ids_to_erase.clear();
+}
+
+std::size_t GameObject::id() const
+{
+  return s_instance_count;
 }
 
 void GameObject::enable()
@@ -40,6 +72,12 @@ bool GameObject::enabled() const
   return !m_enabled;
 }
 
+void GameObject::destroy()
+{
+  assert(m_parent && "parent is null");
+  m_parent->m_child_ids_to_erase.push_back(id());
+}
+
 void GameObject::set_position(vec3 position)
 {
   std::for_each(m_children.begin(), m_children.end(),
@@ -53,5 +91,15 @@ void GameObject::set_position(vec3 position)
 vec3 GameObject::get_position() const
 {
   return m_position;
+}
+
+std::vector<GameObject_ptr>& GameObject::get_children()
+{
+  return m_children;
+}
+
+std::vector<GameObject_ptr> const& GameObject::get_children() const
+{
+  return m_children;
 }
 } // namespace isaac

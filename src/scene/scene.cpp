@@ -1,10 +1,8 @@
 #include "scene/scene.hpp"
 
-#include <utility>
-
 namespace isaac {
-std::vector<std::unique_ptr<GameObject>>& isaac::Scene::get_game_objects()
+GameObject& Scene::root()
 {
-  return m_game_objects;
+  return m_root;
 }
 } // namespace isaac
