@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 add_library(isaac
-  src/game.cpp
+  src/isaac.cpp
   src/components/component.cpp
   src/components/game_object.cpp
   src/components/sprite_renderer.cpp

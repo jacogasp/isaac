@@ -1,5 +1,5 @@
-#ifndef ISAAC_GAME_HPP
-#define ISAAC_GAME_HPP
+#ifndef ISAAC_ISAAC_HPP
+#define ISAAC_ISAAC_HPP
 
 #include "system/world.hpp"
 #include <memory>
@@ -7,7 +7,7 @@
 namespace isaac {
 class Scene;
 class World;
-class Game
+class Isaac
 {
   World m_world{};
   std::unique_ptr<Scene> m_main_scene;
