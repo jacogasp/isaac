@@ -5,6 +5,7 @@
 #include "physics/vector.hpp"
 
 #include <memory>
+#include <optional>
 #include <vector>
 
 namespace isaac {
@@ -35,22 +36,28 @@ class GameObject
   [[nodiscard]] vec3 get_position() const;
   void add_child(GameObject child);
   template<typename T>
-  T* make_component()
-  {
-    m_components.push_back(std::make_unique<T>());
-    return static_cast<T*>(m_components.back().get());
-  };
+  T* make_component();
   template<typename T>
-  T get_component() const
-  {
-    for (auto& component : m_components) {
-      T found = dynamic_cast<T>(component);
-      if (found) {
-        return found;
-      }
-    }
-    return nullptr;
-  }
+  T* get_component() const;
 };
+
+template<typename T>
+T* GameObject::make_component()
+{
+  m_components.push_back(std::make_unique<T>());
+  return static_cast<T*>(m_components.back().get());
+};
+
+template<typename T>
+T* GameObject::get_component() const
+{
+  for (auto& component : m_components) {
+    auto found = dynamic_cast<T*>(component.get());
+    if (found) {
+      return found;
+    }
+  }
+  return nullptr;
+}
 } // namespace isaac
 #endif
