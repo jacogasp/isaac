@@ -87,9 +87,7 @@ auto create_scene()
 int main()
 {
   isaac::Isaac isaac;
-  auto scene = create_scene();
-  isaac.set_scene(std::move(scene));
+  isaac.set_scene(create_scene());
   isaac.run();
-  
   return 0;
 }
