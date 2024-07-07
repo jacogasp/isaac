@@ -33,8 +33,6 @@ class GameObject
   [[nodiscard]] bool enabled() const;
   void set_position(vec3 position);
   [[nodiscard]] vec3 get_position() const;
-  template<typename T>
-  void add_child(T child);
   template<typename T, typename... Args>
   T* make_child(Args... args);
   template<typename T>
@@ -42,11 +40,6 @@ class GameObject
   template<typename T>
   T* get_component() const;
 };
-
-template<typename T>
-void add_child(T child) {
-  
-}
 
 template<typename T, typename... Args>
 T* GameObject::make_child(Args... args)
