@@ -1,6 +1,6 @@
 #include <isaac/components/game_object.hpp>
 #include <isaac/components/sprite_renderer.hpp>
-#include <isaac/game.hpp>
+#include <isaac/isaac.hpp>
 #include <isaac/physics/utility.hpp>
 #include <isaac/scene/scene.hpp>
 #include <isaac/system/input.hpp>
@@ -86,9 +86,10 @@ auto create_scene()
 
 int main()
 {
-  isaac::Game game;
+  isaac::Isaac isaac;
   auto scene = create_scene();
-  game.set_scene(std::move(scene));
-  game.run();
+  isaac.set_scene(std::move(scene));
+  isaac.run();
+  
   return 0;
 }

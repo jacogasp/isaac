@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "isaac.hpp"
 
 #include "render/window_server.hpp"
 #include "scene/scene_manager.hpp"
@@ -13,12 +13,12 @@
 
 namespace isaac {
 
-void Game::set_scene(std::unique_ptr<Scene> scene)
+void Isaac::set_scene(std::unique_ptr<Scene> scene)
 {
   m_main_scene = std::move(scene);
 }
 
-int Game::run()
+int Isaac::run()
 {
   if (!start()) {
     return EXIT_FAILURE;
@@ -29,7 +29,7 @@ int Game::run()
   return EXIT_SUCCESS;
 }
 
-bool Game::start()
+bool Isaac::start()
 {
   try {
     ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
@@ -40,9 +40,9 @@ bool Game::start()
     if (m_main_scene == nullptr) {
       throw std::runtime_error(
           "cannot found any scene to display. Please load a scene with "
-          "Game::add_scene before starting the game");
+          "Isaac::add_scene before starting the game");
     }
-    
+
     auto scene_manager = ServiceLocator<SceneManager>::get_service();
     scene_manager->set_scene(std::move(m_main_scene));
     m_world.start();
@@ -57,7 +57,7 @@ bool Game::start()
   return true;
 }
 
-void Game::cleanup()
+void Isaac::cleanup()
 {
   // for some reasons, we have to forcefully release the window server because
   // sf::RenderWindow crashes during at destructor otherwise
