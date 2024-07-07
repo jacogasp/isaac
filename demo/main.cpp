@@ -5,27 +5,62 @@
 #include <isaac/scene/scene.hpp>
 #include <isaac/system/input.hpp>
 
+#include <cmath>
 #include <memory>
 #include <utility>
 
-class Player : public isaac::GameObject
+class Orbiter : public isaac::GameObject
 {
-  sf::CircleShape* m_shape;
+  isaac::GameObject* m_attractor;
 
+ private:
   void on_start() override
   {
-    auto sprite_renderer = make_component<isaac::SpriteRenderer>();
-    m_shape              = sprite_renderer->make_shape<sf::CircleShape>();
-    m_shape->setRadius(50);
-    m_shape->setFillColor({255, 255, 255});
+    auto renderer = make_component<isaac::SpriteRenderer>();
+    auto shape    = renderer->make_shape<sf::CircleShape>();
+    shape->setRadius(10);
+    shape->setFillColor({255, 255, 255});
   }
 
   void on_update(float delta) override
   {
-    auto position = m_shape->getPosition();
+    constexpr float radius    = 100.0f;
+    constexpr float frequency = 3.0f;
+    static float t            = 0;
+    auto position             = m_attractor->get_position();
+    position.x += std::sin(t * frequency) * radius;
+    position.y += std::cos(t * frequency) * radius;
+    set_position(position);
+    t += delta;
+  }
+
+ public:
+  void set_attractor(isaac::GameObject& attractor)
+  {
+    m_attractor = &attractor;
+  }
+};
+
+class Player : public isaac::GameObject
+{
+  void on_start() override
+  {
+    auto sprite_renderer = make_component<isaac::SpriteRenderer>();
+    auto sprite          = sprite_renderer->make_shape<sf::CircleShape>();
+    sprite->setRadius(25);
+    sprite->setFillColor({255, 255, 255});
+
+    auto orbiter = make_child<Orbiter>();
+    orbiter->set_attractor(*this);
+  }
+
+  void on_update(float delta) override
+  {
+    auto position = get_position();
     auto axis     = isaac::Input::get_axis();
-    auto force    = 300.0f * axis * delta;
-    m_shape->setPosition(position + isaac::to_sfml<float>(force));
+    auto force    = 300.0f * delta * isaac::vec3{axis.x, axis.y, 0};
+    position += force;
+    set_position(position);
   }
 };
 
