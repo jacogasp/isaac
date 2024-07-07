@@ -31,6 +31,7 @@ add_library(isaac
   src/system/input.cpp
   src/system/logger.cpp
   src/system/observer.cpp
+  src/system/random.cpp
   src/system/service_locator.cpp
   src/system/thread.cpp
   src/system/world.cpp
