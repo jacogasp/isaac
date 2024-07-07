@@ -51,12 +51,13 @@ void World::input()
 
 void World::update()
 {
+  auto const delta   = m_frame_clock.restart().asSeconds();
   auto current_scene = m_scene_manager->get_current_scene();
   assert(current_scene && "current scene is null");
 
   auto& game_objects = current_scene->get_game_objects();
   std::for_each(game_objects.begin(), game_objects.end(),
-                [](auto& game_object) { game_object->update(0.01); });
+                [&delta](auto& game_object) { game_object->update(delta); });
 }
 
 void World::render()

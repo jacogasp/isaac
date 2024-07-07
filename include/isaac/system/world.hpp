@@ -5,9 +5,12 @@
 #include "scene/scene_manager.hpp"
 #include "system/observer.hpp"
 
+#include <SFML/System/Clock.hpp>
+
 namespace isaac {
 class World : public Observable<sf::Event>
 {
+  sf::Clock m_frame_clock{};
   sf::RenderWindow* m_window;
   SceneManager* m_scene_manager;
 
