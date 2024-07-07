@@ -12,7 +12,7 @@ class GameObject
 {
   vec3 m_position{};
   bool m_enabled = false;
-  std::vector<GameObject> m_children{};
+  std::vector<std::unique_ptr<GameObject>> m_children{};
   std::vector<std::unique_ptr<Component>> m_components{};
 
  protected:
@@ -33,12 +33,27 @@ class GameObject
   [[nodiscard]] bool enabled() const;
   void set_position(vec3 position);
   [[nodiscard]] vec3 get_position() const;
-  void add_child(GameObject child);
+  template<typename T>
+  void add_child(T child);
+  template<typename T, typename... Args>
+  T* make_child(Args... args);
   template<typename T>
   T* make_component();
   template<typename T>
   T* get_component() const;
 };
+
+template<typename T>
+void add_child(T child) {
+  
+}
+
+template<typename T, typename... Args>
+T* GameObject::make_child(Args... args)
+{
+  m_children.push_back(std::make_unique<T>(args...));
+  return static_cast<T*>(m_children.back().get());
+}
 
 template<typename T>
 T* GameObject::make_component()
