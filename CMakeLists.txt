@@ -18,6 +18,7 @@ add_library(isaac
   src/components/component.cpp
   src/components/game_object.cpp
   src/components/sprite_renderer.cpp
+  src/internal/base_object.cpp
   src/physics/geometry_2d.cpp
   src/physics/math.cpp
   src/physics/matrix.cpp

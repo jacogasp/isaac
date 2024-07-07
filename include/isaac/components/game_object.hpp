@@ -2,6 +2,7 @@
 #define COMPONENTS_GAME_OBJECT_HPP
 
 #include "components/component.hpp"
+#include "internal/base_object.hpp"
 #include "physics/vector.hpp"
 
 #include <cstddef>
@@ -11,7 +12,7 @@
 namespace isaac {
 using GameObject_ptr = std::unique_ptr<GameObject>;
 using Component_ptr  = std::unique_ptr<Component>;
-class GameObject
+class GameObject : public BaseObject
 {
   vec3 m_position{};
   bool m_enabled = false;
@@ -33,8 +34,7 @@ class GameObject
   virtual void on_destroy() {};
 
  public:
-  static std::size_t s_instance_count;
-  GameObject();
+  GameObject()                            = default;
   ~GameObject()                           = default;
   GameObject(GameObject const&)           = delete;
   GameObject(GameObject&&)                = default;
@@ -44,7 +44,6 @@ class GameObject
   void disable();
   [[nodiscard]] bool enabled() const;
   void destroy();
-  [[nodiscard]] std::size_t id() const;
   void set_position(vec3 position);
   [[nodiscard]] vec3 get_position() const;
   template<typename T, typename... Args>

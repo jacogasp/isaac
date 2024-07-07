@@ -4,12 +4,6 @@
 #include <cassert>
 
 namespace isaac {
-std::size_t GameObject::s_instance_count = 0;
-
-GameObject::GameObject()
-{
-  ++s_instance_count;
-}
 
 void GameObject::start()
 {
@@ -46,11 +40,6 @@ void GameObject::destroy_queued()
                 [](auto& child) { child->on_destroy(); });
   m_children.erase(to_erase, m_children.end());
   m_child_ids_to_erase.clear();
-}
-
-std::size_t GameObject::id() const
-{
-  return s_instance_count;
 }
 
 void GameObject::enable()
