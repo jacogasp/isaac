@@ -5,6 +5,7 @@
 #include "system/observer.hpp"
 
 #include "SFML/Window/Event.hpp"
+#include "SFML/Window/Keyboard.hpp"
 
 #include <array>
 #include <unordered_map>
