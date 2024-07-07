@@ -5,7 +5,6 @@
 #include "physics/vector.hpp"
 
 #include <memory>
-#include <optional>
 #include <vector>
 
 namespace isaac {
