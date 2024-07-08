@@ -69,16 +69,18 @@ int QuadTreeNode<T, MaxDept, MaxObjectsPerNode>::num_objects()
   to_process.push(this);
 
   while (!to_process.empty()) {
-    if (auto processing = to_process.front(); !processing->is_leaf()) {
+    auto processing = to_process.front();
+    if (!processing->is_leaf()) {
       for (auto&& child : processing->m_children) {
         to_process.push(&child);
       }
-    } else {
-      for (auto&& content : processing->m_contents) {
-        if (!content.flag) {
-          object_count++;
-          content.flag = true;
-        }
+      to_process.pop();
+      continue;
+    }
+    for (auto&& content : processing->m_contents) {
+      if (!content.flag) {
+        object_count++;
+        content.flag = true;
       }
     }
     to_process.pop();
@@ -180,23 +182,24 @@ void QuadTreeNode<T, MaxDept, MaxObjectsPerNode>::shake()
     return;
   }
 
-  if (num_objects() < MaxObjectsPerNode) {
-    std::queue<QuadTreeNode<T, MaxDept, MaxObjectsPerNode>*> to_process;
-    to_process.push(this);
-    while (!to_process.empty()) {
-      auto processing = to_process.back();
-      if (!processing->is_leaf()) {
-        for (auto&& child : m_children) {
-          to_process.push(&child);
-        }
-      } else if (processing != this) {
-        m_contents.insert(m_contents.end(), processing->m_contents.begin(),
-                          processing->m_contents.end());
-      }
-      to_process.pop();
-    }
-    m_children.clear();
+  if (num_objects() >= MaxObjectsPerNode) {
+    return;
   }
+
+  std::queue<QuadTreeNode<T, MaxDept, MaxObjectsPerNode>*> to_process;
+  to_process.push(this);
+  while (!to_process.empty()) {
+    if (auto processing = to_process.back(); !processing->is_leaf()) {
+      for (auto&& child : m_children) {
+        to_process.push(&child);
+      }
+    } else if (processing != this) {
+      m_contents.insert(m_contents.end(), processing->m_contents.begin(),
+                        processing->m_contents.end());
+    }
+    to_process.pop();
+  }
+  m_children.clear();
 }
 
 template<typename T, int MaxDept, int MaxObjectsPerNode>
