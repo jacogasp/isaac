@@ -24,9 +24,8 @@ struct vec2
   vec2(float _x, float _y)
       : arr{_x, _y} {};
   vec2(vec2 const& other)
-  {
-    arr = other.arr;
-  }
+      : arr{other.arr}
+  {}
   vec2& operator=(vec2 const& other)
   {
     arr = other.arr;
@@ -60,9 +59,8 @@ struct vec3
   vec3(float _x, float _y, float _z)
       : arr{_x, _y, _z} {};
   vec3(vec3 const& other)
-  {
-    arr = other.arr;
-  }
+      : arr{other.arr}
+  {}
   vec3& operator=(vec3 const& other)
   {
     arr = other.arr;

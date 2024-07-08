@@ -24,13 +24,12 @@ struct mat2
   float& _21 = arr[2];
   float& _22 = arr[3];
 
-  inline mat2() = default;
+  mat2() = default;
   inline mat2(float f11, float f12, float f21, float f22)
       : arr{f11, f12, f21, f22} {};
   mat2(mat2 const& other)
-  {
-    arr = other.arr;
-  }
+      : arr{other.arr}
+  {}
   mat2& operator=(mat2 const& other)
   {
     arr = other.arr;
@@ -64,7 +63,7 @@ struct mat3
   float& _32 = arr[7];
   float& _33 = arr[8];
 
-  inline mat3() = default;
+  mat3() = default;
   inline mat3(float f11, float f12, float f13, float f21, float f22, float f23,
               float f31, float f32, float f33)
       : arr{f11, f12, f13, f21, f22, f23, f31, f32, f33}
@@ -121,7 +120,7 @@ struct mat4
   float& _43 = arr[14];
   float& _44 = arr[15];
 
-  inline mat4() = default;
+  mat4() = default;
   inline mat4(float f11, float f12, float f13, float f14, float f21, float f22,
               float f23, float f24, float f31, float f32, float f33, float f34,
               float f41, float f42, float f43, float f44)
@@ -129,9 +128,8 @@ struct mat4
             f31, f32, f33, f34, f41, f42, f43, f44}
   {}
   mat4(mat4 const& other)
-  {
-    arr = other.arr;
-  }
+      : arr{other.arr}
+  {}
   mat4& operator=(mat4 const& other)
   {
     arr = other.arr;
@@ -311,9 +309,8 @@ template<class T>
 bool matrix_cmp(T const& l, T const& r)
 {
   bool equal = true;
-  {
-    for (size_t i = 0; i < l.arr.size(); i++)
-      equal &= cmp(l.arr.at(i), r.arr.at(i));
+  for (size_t i = 0; i < l.arr.size(); i++) {
+    equal = equal && cmp(l.arr.at(i), r.arr.at(i));
   }
   return equal;
 }
