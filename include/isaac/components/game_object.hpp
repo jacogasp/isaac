@@ -7,6 +7,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <unordered_set>
 #include <vector>
 
 namespace isaac {
@@ -18,7 +19,7 @@ class GameObject : public BaseObject
   bool m_enabled = false;
   std::vector<GameObject_ptr> m_children{};
   std::vector<Component_ptr> m_components{};
-  std::vector<std::size_t> m_child_ids_to_erase{};
+  std::unordered_set<std::size_t> m_child_ids_to_erase{};
   GameObject* m_parent = nullptr;
 
  private:

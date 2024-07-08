@@ -19,25 +19,21 @@ void GameObject::update(float delta)
   std::ranges::for_each(m_components,
                         [this](auto& comp) { comp->update(*this); });
   std::ranges::for_each(m_children,
-                [delta](auto& child) { child->update(delta); });
+                        [delta](auto& child) { child->update(delta); });
 }
 
 void GameObject::destroy_queued()
 {
-  if (m_child_ids_to_erase.empty()) {
-    return;
-  }
+  // recursively destroy_queued children
+  std::ranges::for_each(m_children,
+                        [](auto& child) { child->destroy_queued(); });
 
-  auto to_erase =
-      std::partition(m_children.begin(), m_children.end(), [&](auto& child) {
-        auto found = std::find_if(
-            m_child_ids_to_erase.begin(), m_child_ids_to_erase.end(),
-            [&child](auto id) { return child->id() == id; });
-        return found == m_child_ids_to_erase.end();
-      });
-  std::for_each(to_erase, m_children.end(),
-                [](auto& child) { child->on_destroy(); });
-  m_children.erase(to_erase, m_children.end());
+  auto to_erase = std::ranges::partition(m_children, [&](auto& child) {
+    return !m_child_ids_to_erase.contains(child->id());
+  });
+
+  std::ranges::for_each(to_erase, [](auto& child) { child->on_destroy(); });
+  m_children.erase(to_erase.begin(), to_erase.end());
   m_child_ids_to_erase.clear();
 }
 
@@ -61,7 +57,7 @@ bool GameObject::enabled() const
 void GameObject::destroy()
 {
   assert(m_parent && "parent is null");
-  m_parent->m_child_ids_to_erase.push_back(id());
+  m_parent->m_child_ids_to_erase.emplace(id());
 }
 
 void GameObject::set_position(vec3 const& position)
