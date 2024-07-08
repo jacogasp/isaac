@@ -18,7 +18,7 @@ class SpriteRenderer : public Component
   WindowServer* m_window_server;
 
  public:
-  void start() override;
+  void start(GameObject&) override;
   void update(GameObject&) override;
   template<typename Shape>
   Shape* make_shape();

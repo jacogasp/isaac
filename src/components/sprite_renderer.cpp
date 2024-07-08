@@ -6,7 +6,7 @@
 
 namespace isaac {
 
-void SpriteRenderer::start()
+void SpriteRenderer::start(GameObject&)
 {
   m_window_server = ServiceLocator<WindowServer>::get_service();
 }
