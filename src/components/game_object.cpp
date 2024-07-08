@@ -64,13 +64,12 @@ void GameObject::destroy()
   m_parent->m_child_ids_to_erase.push_back(id());
 }
 
-void GameObject::set_position(vec3 position)
+void GameObject::set_position(vec3 const& position)
 {
-  std::for_each(m_children.begin(), m_children.end(),
-                [&, position](auto& child) {
-                  auto const offset = get_position() - child->get_position();
-                  child->set_position(position + offset);
-                });
+  std::ranges::for_each(m_children, [&](auto& child) {
+    auto const offset = get_position() - child->get_position();
+    child->set_position(position + offset);
+  });
   m_position = position;
 }
 

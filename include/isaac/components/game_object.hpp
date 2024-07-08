@@ -44,7 +44,7 @@ class GameObject : public BaseObject
   void disable();
   [[nodiscard]] bool enabled() const;
   void destroy();
-  void set_position(vec3 position);
+  void set_position(vec3 const& position);
   [[nodiscard]] vec3 get_position() const;
   template<typename T, typename... Args>
   T* make_child(Args... args);
