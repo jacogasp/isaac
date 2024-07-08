@@ -134,6 +134,7 @@ struct BoundingShape2D
   void add_shape(Shape2D shape);
   [[nodiscard]] std::vector<Shape2D> const& get_shapes() const;
   [[nodiscard]] bool intersects(Shape2D const& shape) const;
+  [[nodiscard]] bool intersects(BoundingShape2D const& shape) const;
   [[nodiscard]] bool has_area() const;
   [[nodiscard]] Rectangle2D bounds() const;
   [[nodiscard]] vec2 get_position() const;

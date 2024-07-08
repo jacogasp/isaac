@@ -2,6 +2,7 @@
 #include "physics/math.hpp"
 
 #include <algorithm>
+#include <ranges>
 #include <vector>
 
 namespace isaac {
@@ -30,12 +31,12 @@ bool point_in_rectangle(Point2D const& point, Rectangle2D const& rectangle)
 }
 
 bool point_in_oriented_rectangle(Point2D const& point,
-                              OrientedRectangle2D const& rectangle)
+                                 OrientedRectangle2D const& rectangle)
 {
   vec2 rot_vector = point - rectangle.position;
-  float theta    = -rectangle.rotation;
+  float theta     = -rectangle.rotation;
   mat2 z_rotation_2x2{std::cos(theta), std ::sin(theta), -std::sin(theta),
-                    std::cos(theta)};
+                      std::cos(theta)};
   rot_vector = mult(rot_vector, z_rotation_2x2);
   Rectangle2D local_rectangle{Point2D{}, rectangle.half_extents * 2.0f};
   vec2 local_point = rot_vector + rectangle.half_extents;
@@ -52,7 +53,7 @@ template<class... Ts>
 overloaded(Ts...) -> overloaded<Ts...>;
 
 bool point_in_bounding_shape(Point2D const& point,
-                          BoundingShape2D const& bounding_shape)
+                             BoundingShape2D const& bounding_shape)
 {
   auto intersects = [&](Shape2D const& s) {
     return std::visit(overloaded{[&](Circle2D const& circle) {
@@ -62,14 +63,14 @@ bool point_in_bounding_shape(Point2D const& point,
                                    return point_in_rectangle(point, rectangle);
                                  },
                                  [&](OrientedRectangle2D const& rectangle) {
-                                   return point_in_oriented_rectangle(point,
-                                                                   rectangle);
+                                   return point_in_oriented_rectangle(
+                                       point, rectangle);
                                  }},
                       s);
   };
 
   auto& shapes = bounding_shape.get_shapes();
-  return std::any_of(shapes.begin(), shapes.end(), intersects);
+  return std::ranges::any_of(shapes, intersects);
 }
 bool BoundingShape2D::has_area() const
 {
@@ -113,7 +114,8 @@ bool Line2D::intersects(Circle2D const& circle) const
 
 bool Line2D::intersects(Rectangle2D const& rectangle) const
 {
-  if (point_in_rectangle(start, rectangle) || point_in_rectangle(end, rectangle))
+  if (point_in_rectangle(start, rectangle)
+      || point_in_rectangle(end, rectangle))
     return true;
   vec2 norm = (end - start).normalized();
   norm.x    = (norm.x != 0) ? 1.0f / norm.x : 0;
@@ -170,8 +172,8 @@ bool Circle2D::intersects(Circle2D const& circle) const
 
 bool Circle2D::intersects(Rectangle2D const& rectangle) const
 {
-  vec2 const min       = rectangle.get_min();
-  vec2 const max       = rectangle.get_max();
+  vec2 const min        = rectangle.get_min();
+  vec2 const max        = rectangle.get_max();
   Point2D closest_point = position;
   closest_point.x       = clamp(closest_point.x, min.x, max.x);
   closest_point.y       = clamp(closest_point.y, min.y, max.y);
@@ -260,17 +262,17 @@ bool Rectangle2D::intersects(OrientedRectangle2D const& rectangle) const
   vec2 axis{rectangle.half_extents.x, 0};
   axis.normalize();
   axis_to_test[2] = z_rotation(axis, theta);
-  axis          = vec2{0, rectangle.half_extents.y};
+  axis            = vec2{0, rectangle.half_extents.y};
   axis.normalize();
   axis_to_test[3] = z_rotation(axis, theta);
-  return std::all_of(axis_to_test.begin(), axis_to_test.end(), [&](vec2 const& ax) {
+  return std::ranges::all_of(axis_to_test, [&](vec2 const& ax) {
     return rectangle.overlap_on_axis(*this, ax);
   });
 }
 
 /// Return true if an overlap exists
 bool Rectangle2D::overlap_on_axis(Rectangle2D const& rectangle,
-                                vec2 const& axis) const
+                                  vec2 const& axis) const
 {
   Interval2D a = this->get_interval(axis);
   Interval2D b = rectangle.get_interval(axis);
@@ -280,9 +282,9 @@ bool Rectangle2D::overlap_on_axis(Rectangle2D const& rectangle,
 bool Rectangle2D::intersects_SAT(Rectangle2D const& rectangle) const
 {
   std::array<vec2, 2> axis_to_test{vec2{1, 0}, vec2{0, 1}};
-  return std::all_of(
-      axis_to_test.begin(), axis_to_test.end(),
-      [&](vec2 const& axis) { return this->overlap_on_axis(rectangle, axis); });
+  return std::ranges::all_of(axis_to_test, [&](vec2 const& axis) {
+    return this->overlap_on_axis(rectangle, axis);
+  });
 }
 
 bool operator==(Rectangle2D const& r1, Rectangle2D const& r2)
@@ -301,7 +303,7 @@ Rectangle2D OrientedRectangle2D::bounds() const
   std::vector<Point2D> vertices{min, max, vec2{min.x, max.y},
                                 vec2{max.x, min.y}};
   float theta = rotation;
-  std::for_each(vertices.begin(), vertices.end(), [&](auto& v) {
+  std::ranges::for_each(vertices, [&](auto& v) {
     v -= position;
     v = z_rotation(v, theta);
     v += position;
@@ -316,7 +318,7 @@ Interval2D OrientedRectangle2D::get_interval(vec2 const& axis) const
   vec2 max = rect.get_max();
   std::vector<vec2> vertices{min, max, vec2{min.x, max.y}, vec2{max.x, min.y}};
   float theta = rotation;
-  std::for_each(vertices.begin(), vertices.end(), [&](auto& v) {
+  std::ranges::for_each(vertices, [&](auto& v) {
     v -= position;
     v = z_rotation(v, theta);
     v += position;
@@ -324,7 +326,7 @@ Interval2D OrientedRectangle2D::get_interval(vec2 const& axis) const
 
   Interval2D res{};
   res.min = res.max = axis.dot(vertices[0]);
-  std::for_each(vertices.begin(), vertices.end(), [&](auto const& v) {
+  std::ranges::for_each(vertices, [&](auto const& v) {
     float proj = axis.dot(v);
     res.min    = std::min(proj, res.min);
     res.max    = std::max(proj, res.max);
@@ -349,15 +351,15 @@ bool OrientedRectangle2D::intersects(OrientedRectangle2D const& rectangle) const
   Rectangle2D local_rect_1{Point2D{}, half_extents * 2.0f};
   vec2 r = rectangle.position - position;
   OrientedRectangle2D local_rect_2{rectangle.position, rectangle.half_extents,
-                                 rectangle.rotation};
+                                   rectangle.rotation};
   local_rect_2.rotation = rectangle.rotation - rotation;
-  float theta         = -rotation;
-  r                   = z_rotation(r, theta);
+  float theta           = -rotation;
+  r                     = z_rotation(r, theta);
   local_rect_2.position = r + half_extents;
   return local_rect_1.intersects(local_rect_2);
 }
 bool OrientedRectangle2D::overlap_on_axis(Rectangle2D const& rectangle2D,
-                                        vec2 const& axis) const
+                                          vec2 const& axis) const
 {
   Interval2D a{rectangle2D.get_interval(axis)};
   Interval2D b{get_interval(axis)};
@@ -368,8 +370,7 @@ bool OrientedRectangle2D::overlap_on_axis(Rectangle2D const& rectangle2D,
 Circle2D containing_circle(std::vector<Point2D> const& points)
 {
   Point2D center;
-  std::for_each(points.begin(), points.end(),
-                [&center](auto const& p) { center += p; });
+  std::ranges::for_each(points, [&center](auto const& p) { center += p; });
 
   center /= static_cast<float>(points.size());
   Circle2D result{center, 1.0f};
@@ -419,8 +420,15 @@ bool BoundingShape2D::intersects(Shape2D const& shape) const
     }, shape);
   };
   // clang-format on
-  return std::any_of(m_shapes.begin(), m_shapes.end(), intersects);
+  return std::ranges::any_of(m_shapes, intersects);
 }
+
+bool BoundingShape2D::intersects(BoundingShape2D const& shape) const
+{
+  return std::ranges::any_of(shape.get_shapes(),
+                             [this](auto& s) { return this->intersects(s); });
+}
+
 vec2 BoundingShape2D::get_position() const
 {
   auto const b = bounds();
@@ -447,17 +455,19 @@ Rectangle2D BoundingShape2D::bounds() const
     return std::visit([](auto const& s) { return s.bounds(); }, shape);
   };
 
-  vec2 min{0, 0};
-  vec2 max{0, 0};
+  vec2 min{std::numeric_limits<float>::max(),
+           std::numeric_limits<float>::max()};
+  vec2 max{std::numeric_limits<float>::min(),
+           std::numeric_limits<float>::min()};
 
   for (auto&& s : m_shapes) {
-    auto const bounds     = get_bounds(s);
+    auto const bounds      = get_bounds(s);
     auto const current_min = bounds.get_min();
     auto const current_max = bounds.get_max();
-    min.x                 = std::min(current_min.x, min.x);
-    min.y                 = std::min(current_min.y, min.y);
-    max.x                 = std::max(current_max.x, max.x);
-    max.y                 = std::max(current_max.y, max.y);
+    min.x                  = std::min(current_min.x, min.x);
+    min.y                  = std::min(current_min.y, min.y);
+    max.x                  = std::max(current_max.x, max.x);
+    max.y                  = std::max(current_max.y, max.y);
   }
   return Rectangle2D::from_min_max(min, max);
 }
