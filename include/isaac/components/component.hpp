@@ -12,6 +12,7 @@ class Component : public BaseObject
  public:
   virtual ~Component() = default;
   [[nodiscard]] GameObject* game_object();
+  virtual void start(GameObject& game_object) {};
   virtual void update(GameObject& game_object) {};
 };
 } // namespace isaac

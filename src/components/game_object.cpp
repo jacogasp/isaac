@@ -2,24 +2,23 @@
 
 #include <algorithm>
 #include <cassert>
+#include <ranges>
 
 namespace isaac {
 
 void GameObject::start()
 {
   on_start();
-  std::for_each(m_components.begin(), m_components.end(),
-                [&](auto& component) { component->start(); });
-  std::for_each(m_children.begin(), m_children.end(),
-                [](auto& child) { child->start(); });
+  std::ranges::for_each(m_components, [&](auto& comp) { comp->start(*this); });
+  std::ranges::for_each(m_children, [](auto& child) { child->start(); });
 }
 
 void GameObject::update(float delta)
 {
   on_update(delta);
-  std::for_each(m_components.begin(), m_components.end(),
-                [this](auto& component) { component->update(*this); });
-  std::for_each(m_children.begin(), m_children.end(),
+  std::ranges::for_each(m_components,
+                        [this](auto& comp) { comp->update(*this); });
+  std::ranges::for_each(m_children,
                 [delta](auto& child) { child->update(delta); });
 }
 
@@ -44,15 +43,13 @@ void GameObject::destroy_queued()
 
 void GameObject::enable()
 {
-  std::for_each(m_children.begin(), m_children.end(),
-                [](auto& child) { child->enable(); });
+  std::ranges::for_each(m_children, [](auto& child) { child->enable(); });
   m_enabled = true;
 }
 
 void GameObject::disable()
 {
-  std::for_each(m_children.begin(), m_children.end(),
-                [](auto& child) { child->disable(); });
+  std::ranges::for_each(m_children, [](auto& child) { child->disable(); });
   m_enabled = false;
 }
 
