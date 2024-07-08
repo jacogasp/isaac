@@ -7,6 +7,7 @@ namespace isaac {
 class BaseObject
 {
   static std::size_t s_instance_count;
+  std::size_t m_id;
 
  public:
   BaseObject();

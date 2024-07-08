@@ -6,11 +6,11 @@ std::size_t BaseObject::s_instance_count{0};
 
 BaseObject::BaseObject()
 {
-  ++s_instance_count;
+  m_id = s_instance_count++;
 }
 
 std::size_t isaac::BaseObject::id() const
 {
-  return BaseObject::s_instance_count;
+  return m_id;
 }
 } // namespace isaac
