@@ -1,15 +1,13 @@
+#ifndef ISAAC_DEMO_ORBITER_HPP
+#define ISAAC_DEMO_ORBITER_HPP
+
 #include <isaac/components/game_object.hpp>
 #include <isaac/components/sprite_renderer.hpp>
-#include <isaac/isaac.hpp>
-#include <isaac/physics/utility.hpp>
-#include <isaac/scene/scene.hpp>
 #include <isaac/system/input.hpp>
 #include <isaac/system/logger.hpp>
 #include <isaac/system/service_locator.hpp>
 
 #include <cmath>
-#include <memory>
-#include <utility>
 
 class Orbiter : public isaac::GameObject
 {
@@ -53,41 +51,4 @@ class Orbiter : public isaac::GameObject
   }
 };
 
-class Player : public isaac::GameObject
-{
-  void on_start() override
-  {
-    auto sprite_renderer = make_component<isaac::SpriteRenderer>();
-    auto sprite          = sprite_renderer->make_shape<sf::CircleShape>();
-    sprite->setRadius(25);
-    sprite->setFillColor({255, 255, 255});
-
-    auto orbiter = make_child<Orbiter>();
-    orbiter->set_attractor(*this);
-  }
-
-  void on_update(float delta) override
-  {
-    auto position = get_position();
-    auto axis     = isaac::Input::get_axis();
-    auto force    = 300.0f * delta * isaac::vec3{axis.x, axis.y, 0};
-    position += force;
-    set_position(position);
-  }
-};
-
-auto create_scene()
-{
-  auto scene = std::make_unique<isaac::Scene>();
-  auto& root = scene->root();
-  root.make_child<Player>();
-  return scene;
-}
-
-int main()
-{
-  isaac::Isaac isaac;
-  isaac.set_scene(create_scene());
-  isaac.run();
-  return 0;
-}
+#endif // ISAAC_DEMO_ORBITER_HPP

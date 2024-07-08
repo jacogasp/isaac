@@ -1,5 +1,6 @@
 #include "isaac.hpp"
 
+#include "physics/physics_2d.hpp"
 #include "render/window_server.hpp"
 #include "scene/scene_manager.hpp"
 #include "system/input.hpp"
@@ -36,6 +37,7 @@ bool Isaac::start()
     ServiceLocator<WindowServer>::register_service();
     ServiceLocator<Input>::register_service();
     ServiceLocator<SceneManager>::register_service();
+    ServiceLocator<PhysicsServer2D>::register_service();
 
     if (m_main_scene == nullptr) {
       throw std::runtime_error(
@@ -59,6 +61,7 @@ bool Isaac::start()
 
 void Isaac::cleanup()
 {
+  m_world.clear();
   // for some reasons, we have to forcefully release the window server because
   // sf::RenderWindow crashes during at destructor otherwise
   ServiceLocator<WindowServer>::release();
