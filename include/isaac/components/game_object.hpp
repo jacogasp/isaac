@@ -67,6 +67,7 @@ template<typename T>
 T* GameObject::make_component()
 {
   m_components.push_back(std::make_unique<T>());
+  m_components.back()->m_parent = this;
   return static_cast<T*>(m_components.back().get());
 };
 
