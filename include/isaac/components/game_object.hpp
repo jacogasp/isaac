@@ -11,6 +11,7 @@
 #include <vector>
 
 namespace isaac {
+class Collision2D;
 using GameObject_ptr = std::unique_ptr<GameObject>;
 using Component_ptr  = std::unique_ptr<Component>;
 class GameObject : public BaseObject
@@ -27,12 +28,15 @@ class GameObject : public BaseObject
   void update(float delta);
   void destroy_queued();
   [[nodiscard]] std::vector<GameObject_ptr>& get_children();
+
   friend class World;
+  friend class Collider2D;
 
  protected:
   virtual void on_start() {};
   virtual void on_update(float delta) {};
   virtual void on_destroy() {};
+  virtual void on_collision_2d(Collision2D const& collision) {};
 
  public:
   GameObject()                            = default;

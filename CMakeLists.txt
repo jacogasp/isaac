@@ -15,13 +15,17 @@ find_package(SFML COMPONENTS graphics window system REQUIRED)
 
 add_library(isaac
   src/isaac.cpp
+  src/components/collider_2d.cpp
   src/components/component.cpp
   src/components/game_object.cpp
   src/components/sprite_renderer.cpp
   src/internal/base_object.cpp
+  src/physics/collision_2d.cpp
+  src/physics/collision_shape_2d.cpp
   src/physics/geometry_2d.cpp
   src/physics/math.cpp
   src/physics/matrix.cpp
+  src/physics/physics_2d.cpp
   src/physics/utility.cpp
   src/physics/vector.cpp
   src/render/window_server.cpp

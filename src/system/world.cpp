@@ -10,9 +10,10 @@
 namespace isaac {
 void World::start()
 {
-  auto window_server = ServiceLocator<WindowServer>::get_service();
-  m_scene_manager    = ServiceLocator<SceneManager>::get_service();
-  auto input         = ServiceLocator<Input>::get_service();
+  auto window_server  = ServiceLocator<WindowServer>::get_service();
+  m_scene_manager     = ServiceLocator<SceneManager>::get_service();
+  m_physics_server_2d = ServiceLocator<PhysicsServer2D>::get_service();
+  auto input          = ServiceLocator<Input>::get_service();
   add_observer(*input);
 
   if (m_scene_manager->get_current_scene() == nullptr) {
@@ -23,8 +24,7 @@ void World::start()
   auto scene         = m_scene_manager->get_current_scene();
   auto& game_objects = scene->root().get_children();
   // start all game objects and their children/components
-  std::for_each(game_objects.begin(), game_objects.end(),
-                [](auto& go) { go->start(); });
+  std::ranges::for_each(game_objects, [](auto& go) { go->start(); });
 }
 
 void World::game_loop()
@@ -52,13 +52,15 @@ void World::input()
 
 void World::update()
 {
-  auto const delta   = m_frame_clock.restart().asSeconds();
+  auto const delta = m_frame_clock.restart().asSeconds();
+  m_physics_server_2d->update();
   auto current_scene = m_scene_manager->get_current_scene();
   assert(current_scene && "current scene is null");
   auto& root         = current_scene->root();
   auto& game_objects = root.get_children();
-  std::for_each(game_objects.begin(), game_objects.end(),
-                [&delta](auto& game_object) { game_object->update(delta); });
+  std::ranges::for_each(game_objects, [&delta](auto& game_object) {
+    game_object->update(delta);
+  });
 }
 
 void World::render()
@@ -70,9 +72,13 @@ void World::destroy_queued()
 {
   auto current_scene = m_scene_manager->get_current_scene();
   assert(current_scene && "current scene is null");
-  auto& root         = current_scene->root();
-  auto& game_objects = root.get_children();
-  std::for_each(game_objects.begin(), game_objects.end(),
-                [](auto& game_object) { game_object->destroy_queued(); });
+  auto& root = current_scene->root();
+  root.destroy_queued();
+}
+
+void World::clear()
+{
+  auto current_scene = m_scene_manager->get_current_scene();
+  current_scene->root().m_children.clear();
 }
 } // namespace isaac
