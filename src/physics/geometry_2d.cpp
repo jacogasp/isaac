@@ -56,17 +56,17 @@ bool point_in_bounding_shape(Point2D const& point,
                              BoundingShape2D const& bounding_shape)
 {
   auto intersects = [&](Shape2D const& s) {
-    return std::visit(overloaded{[&](Circle2D const& circle) {
-                                   return point_in_circle(point, circle);
-                                 },
-                                 [&](Rectangle2D const& rectangle) {
-                                   return point_in_rectangle(point, rectangle);
-                                 },
-                                 [&](OrientedRectangle2D const& rectangle) {
-                                   return point_in_oriented_rectangle(
-                                       point, rectangle);
-                                 }},
-                      s);
+    return std::visit(
+        overloaded{[&point](Circle2D const& circle) {
+                     return point_in_circle(point, circle);
+                   },
+                   [&point](Rectangle2D const& rectangle) {
+                     return point_in_rectangle(point, rectangle);
+                   },
+                   [&point](OrientedRectangle2D const& rectangle) {
+                     return point_in_oriented_rectangle(point, rectangle);
+                   }},
+        s);
   };
 
   auto& shapes = bounding_shape.get_shapes();
