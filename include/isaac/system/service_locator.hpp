@@ -4,7 +4,6 @@
 #include <format>
 #include <memory>
 #include <stdexcept>
-#include <string>
 
 namespace isaac {
 template<typename T>

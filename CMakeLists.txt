@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Export compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(SFML COMPONENTS Graphics Window System REQUIRED)
+find_package(ImGui-SFML CONFIG REQUIRED)
 
 
 add_library(libisaac
@@ -60,7 +60,7 @@ set_target_properties(libisaac PROPERTIES
 add_subdirectory(tests)
 
 
-target_link_libraries(libisaac SFML::Graphics SFML::Window SFML::System)
+target_link_libraries(libisaac PUBLIC ImGui-SFML::ImGui-SFML)
 target_include_directories(libisaac PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
