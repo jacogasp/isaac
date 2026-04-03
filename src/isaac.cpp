@@ -10,12 +10,14 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <SFML/System/Vector2.hpp>
 #include <sfml/Window/Event.hpp>
 
 namespace isaac {
 
-Isaac::Isaac(std::string_view name)
-    : m_name{name}
+Isaac::Isaac(sf::Vector2u window_size, std::string_view name)
+    : m_window_size{std::move(window_size)}
+    , m_name{name}
 {}
 
 void Isaac::set_scene(std::unique_ptr<Scene> scene)
@@ -38,7 +40,7 @@ bool Isaac::start()
 {
   try {
     ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
-    ServiceLocator<WindowServer>::register_service(m_name);
+    ServiceLocator<WindowServer>::register_service(m_window_size, m_name);
     ServiceLocator<Input>::register_service();
     ServiceLocator<SceneManager>::register_service();
     ServiceLocator<PhysicsServer2D>::register_service();

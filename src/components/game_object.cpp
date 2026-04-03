@@ -22,6 +22,12 @@ void GameObject::update(float delta)
                         [delta](auto& child) { child->update(delta); });
 }
 
+void GameObject::draw()
+{
+  on_draw();
+  std::ranges::for_each(m_children, [](auto& child) { child->draw(); });
+}
+
 void GameObject::destroy_queued()
 {
   // recursively destroy_queued children
