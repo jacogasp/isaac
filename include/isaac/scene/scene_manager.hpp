@@ -1,7 +1,7 @@
 #ifndef SCENE_SCENE_MANAGER_HPP
 #define SCENE_SCENE_MANAGER_HPP
 
-#include "scene/scene.hpp"
+#include "isaac/scene/scene.hpp"
 
 #include <memory>
 

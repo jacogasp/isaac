@@ -9,5 +9,5 @@ add_executable(isaac-demo
   src/orbiter.cpp
   src/player.cpp
 )
-target_link_libraries(isaac-demo PRIVATE isaac)
+target_link_libraries(isaac-demo PRIVATE libisaac)
 target_include_directories(isaac-demo PRIVATE ../include)

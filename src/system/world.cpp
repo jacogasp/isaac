@@ -1,7 +1,8 @@
-#include "system/world.hpp"
-#include "system/defaults.hpp"
-#include "system/input.hpp"
-#include "system/service_locator.hpp"
+#include "isaac/system/world.hpp"
+#include "isaac/system/input.hpp"
+#include "isaac/system/service_locator.hpp"
+
+#include <SFML/Window/Event.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -40,13 +41,12 @@ void World::game_loop()
 
 void World::input()
 {
-  sf::Event event{};
-  while (m_window->pollEvent(event)) {
-    if (event.type == sf::Event::Closed) {
+  while (auto event = m_window->pollEvent()) {
+    if (event->getIf<sf::Event::Closed>()) {
       m_window->close();
       return;
     }
-    notify(event);
+    notify(event.value());
   }
 }
 

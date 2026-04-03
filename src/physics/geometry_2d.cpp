@@ -1,8 +1,7 @@
-#include "physics/geometry_2d.hpp"
-#include "physics/math.hpp"
+#include "isaac/physics/geometry_2d.hpp"
+#include "isaac/physics/math.hpp"
 
 #include <algorithm>
-#include <ranges>
 #include <vector>
 
 namespace isaac {

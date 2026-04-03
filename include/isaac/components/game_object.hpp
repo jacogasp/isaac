@@ -1,12 +1,11 @@
-#ifndef COMPONENTS_GAME_OBJECT_HPP
-#define COMPONENTS_GAME_OBJECT_HPP
+#ifndef ISAAC_COMPONENTS_GAME_OBJECT_HPP
+#define ISAAC_COMPONENTS_GAME_OBJECT_HPP
 
-#include "components/component.hpp"
-#include "internal/base_object.hpp"
-#include "physics/vector.hpp"
+#include "isaac/components/component.hpp"
+#include "isaac/internal/base_object.hpp"
+#include "isaac/physics/vector.hpp"
 
 #include <cstddef>
-#include <memory>
 #include <unordered_set>
 #include <vector>
 
@@ -26,6 +25,7 @@ class GameObject : public BaseObject
  private:
   void start();
   void update(float delta);
+  void draw();
   void destroy_queued();
   [[nodiscard]] std::vector<GameObject_ptr>& get_children();
 
@@ -35,6 +35,7 @@ class GameObject : public BaseObject
  protected:
   virtual void on_start() {};
   virtual void on_update(float delta) {};
+  virtual void on_draw() {};
   virtual void on_destroy() {};
   virtual void on_collision_2d(Collision2D const& collision) {};
 

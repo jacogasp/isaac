@@ -1,5 +1,5 @@
-#ifndef PHYSICS_UTILITY_HPP
-#define PHYSICS_UTILITY_HPP
+#ifndef ISAAC_PHYSICS_UTILITY_HPP
+#define ISAAC_PHYSICS_UTILITY_HPP
 
 #include "vector.hpp"
 #include <SFML/System.hpp>

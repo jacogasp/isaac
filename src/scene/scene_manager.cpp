@@ -1,4 +1,5 @@
-#include "scene/scene_manager.hpp"
+#include "isaac/scene/scene_manager.hpp"
+
 #include <utility>
 
 namespace isaac {

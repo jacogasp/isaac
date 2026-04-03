@@ -1,11 +1,13 @@
-#include "render/window_server.hpp"
-#include "system/defaults.hpp"
+#include "isaac/render/window_server.hpp"
+#include "isaac/system/defaults.hpp"
+
+#include <cstdlib>
 
 namespace isaac {
-WindowServer::WindowServer()
+WindowServer::WindowServer(std::string const& title)
     : m_window(
-          sf::VideoMode(Defaults::k_screen_width, Defaults::k_screen_height),
-          Defaults::k_window_title)
+          sf::VideoMode({Defaults::k_screen_width, Defaults::k_screen_height}),
+          title)
 {
   m_window.setFramerateLimit(Defaults::k_max_fps);
 }

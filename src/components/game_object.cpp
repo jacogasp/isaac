@@ -1,4 +1,4 @@
-#include "components/game_object.hpp"
+#include "isaac/components/game_object.hpp"
 
 #include <algorithm>
 #include <cassert>

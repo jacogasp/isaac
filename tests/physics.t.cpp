@@ -1,9 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
-#include "physics/geometry_2d.hpp"
-#include "physics/matrix.hpp"
-#include "physics/quad_tree.hpp"
-#include "physics/vector.hpp"
+#include "isaac/physics/geometry_2d.hpp"
+#include "isaac/physics/matrix.hpp"
+#include "isaac/physics/quad_tree.hpp"
+#include "isaac/physics/vector.hpp"
 
 #include "doctest.h"
 

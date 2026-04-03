@@ -1,7 +1,7 @@
-#include "components/collider_2d.hpp"
-#include "components/game_object.hpp"
-#include "physics/physics_2d.hpp"
-#include "system/service_locator.hpp"
+#include "isaac/components/collider_2d.hpp"
+#include "isaac/components/game_object.hpp"
+#include "isaac/physics/physics_2d.hpp"
+#include "isaac/system/service_locator.hpp"
 
 namespace isaac {
 Collider2D::~Collider2D()

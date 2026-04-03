@@ -1,8 +1,8 @@
-#include "components/sprite_renderer.hpp"
-#include "components/game_object.hpp"
+#include "isaac/components/sprite_renderer.hpp"
+#include "isaac/components/game_object.hpp"
+#include "isaac/system/service_locator.hpp"
 
 #include <cassert>
-#include <utility>
 
 namespace isaac {
 

@@ -1,5 +1,5 @@
-#include "physics/vector.hpp"
-#include "physics/math.hpp"
+#include "isaac/physics/vector.hpp"
+#include "isaac/physics/math.hpp"
 
 #include <iomanip>
 

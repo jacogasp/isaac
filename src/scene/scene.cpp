@@ -1,4 +1,4 @@
-#include "scene/scene.hpp"
+#include "isaac/scene/scene.hpp"
 
 namespace isaac {
 GameObject& Scene::root()
