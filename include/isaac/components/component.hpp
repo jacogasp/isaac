@@ -1,7 +1,7 @@
-#ifndef COMPONENTS_COMPONENT_HPP
-#define COMPONENTS_COMPONENT_HPP
+#ifndef ISAAC_COMPONENTS_COMPONENT_HPP
+#define ISAAC_COMPONENTS_COMPONENT_HPP
 
-#include "internal/base_object.hpp"
+#include "isaac/internal/base_object.hpp"
 namespace isaac {
 class GameObject;
 class Component : public BaseObject

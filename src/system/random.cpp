@@ -1,4 +1,4 @@
-#include "system/random.hpp"
+#include "isaac/system/random.hpp"
 
 namespace isaac {
 static std::random_device random_device{};

@@ -1,11 +1,11 @@
 add_executable(physics-tests physics.t.cpp)
 
-target_link_libraries(physics-tests PRIVATE isaac)
+target_link_libraries(physics-tests PRIVATE libisaac)
 
 add_test(physics-test physics-test)
 
 find_package(benchmark REQUIRED)
 if (benchmark_FOUND)
     add_executable(bench benchmark.cpp)
-    target_link_libraries(bench benchmark::benchmark isaac)
+    target_link_libraries(bench benchmark::benchmark libisaac)
 endif()

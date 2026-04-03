@@ -1,15 +1,13 @@
-#ifndef PHYSICS_MATRIX_HPP
-#define PHYSICS_MATRIX_HPP
+#ifndef ISAAC_PHYSICS_MATRIX_HPP
+#define ISAAC_PHYSICS_MATRIX_HPP
 
 #include "math.hpp"
 #include "vector.hpp"
-#include "system/thread.hpp"
+#include "isaac/system/thread.hpp"
 
 #include <array>
 #include <cassert>
-#include <functional>
 #include <iomanip>
-#include <variant>
 
 namespace isaac {
 template<size_t S>

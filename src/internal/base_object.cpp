@@ -1,4 +1,4 @@
-#include "internal/base_object.hpp"
+#include "isaac/internal/base_object.hpp"
 
 namespace isaac {
 

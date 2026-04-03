@@ -1,8 +1,8 @@
-#ifndef COMPONENTS_COLLIDER_2D_HPP
-#define COMPONENTS_COLLIDER_2D_HPP
+#ifndef ISAAC_COMPONENTS_COLLIDER_2D_HPP
+#define ISAAC_COMPONENTS_COLLIDER_2D_HPP
 
-#include "component.hpp"
-#include "physics/collision_shape_2d.hpp"
+#include "isaac/components/component.hpp"
+#include "isaac/physics/collision_shape_2d.hpp"
 
 namespace isaac {
 class GameObject;

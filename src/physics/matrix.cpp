@@ -1,7 +1,4 @@
-#include "physics/matrix.hpp"
-#include "system/thread.hpp"
-
-#include <thread>
+#include "isaac/physics/matrix.hpp"
 
 namespace isaac {
 

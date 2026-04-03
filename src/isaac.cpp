@@ -1,11 +1,11 @@
-#include "isaac.hpp"
+#include "isaac/isaac.hpp"
 
-#include "physics/physics_2d.hpp"
-#include "render/window_server.hpp"
-#include "scene/scene_manager.hpp"
-#include "system/input.hpp"
-#include "system/logger.hpp"
-#include "system/service_locator.hpp"
+#include "isaac/physics/physics_2d.hpp"
+#include "isaac/render/window_server.hpp"
+#include "isaac/scene/scene_manager.hpp"
+#include "isaac/system/input.hpp"
+#include "isaac/system/logger.hpp"
+#include "isaac/system/service_locator.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -13,6 +13,10 @@
 #include <sfml/Window/Event.hpp>
 
 namespace isaac {
+
+Isaac::Isaac(std::string_view name)
+    : m_name{name}
+{}
 
 void Isaac::set_scene(std::unique_ptr<Scene> scene)
 {
@@ -34,7 +38,7 @@ bool Isaac::start()
 {
   try {
     ServiceLocator<Logger>::register_service(Logger::Level::DEBUG);
-    ServiceLocator<WindowServer>::register_service();
+    ServiceLocator<WindowServer>::register_service(m_name);
     ServiceLocator<Input>::register_service();
     ServiceLocator<SceneManager>::register_service();
     ServiceLocator<PhysicsServer2D>::register_service();

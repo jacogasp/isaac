@@ -1,8 +1,8 @@
 #ifndef SYSTEM_INPUT_HPP
 #define SYSTEM_INPUT_HPP
 
-#include "physics/vector.hpp"
-#include "system/observer.hpp"
+#include "isaac/physics/vector.hpp"
+#include "isaac/system/observer.hpp"
 
 #include "SFML/Window/Event.hpp"
 #include "SFML/Window/Keyboard.hpp"
@@ -31,11 +31,11 @@ class Input : public Observer<sf::Event>
   };
 
   inline static std::unordered_map<Action, keys_t> key_bindings{
-      {up, {sf::Keyboard::Up, sf::Keyboard::W}},
-      {left, {sf::Keyboard::Left, sf::Keyboard::A}},
-      {down, {sf::Keyboard::Down, sf::Keyboard::S}},
-      {right, {sf::Keyboard::Right, sf::Keyboard::D}},
-      {jump, {sf::Keyboard::Space}},
+      {up, {sf::Keyboard::Key::Up, sf::Keyboard::Key::W}},
+      {left, {sf::Keyboard::Key::Left, sf::Keyboard::Key::A}},
+      {down, {sf::Keyboard::Key::Down, sf::Keyboard::Key::S}},
+      {right, {sf::Keyboard::Key::Right, sf::Keyboard::Key::D}},
+      {jump, {sf::Keyboard::Key::Space}},
   };
 
   void on_notify(Observable<sf::Event>& subject,

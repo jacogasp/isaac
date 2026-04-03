@@ -1,16 +1,14 @@
-#include "system/input.hpp"
+#include "isaac/system/input.hpp"
+
+#include <SFML/Window/Event.hpp>
 
 namespace isaac {
 void Input::on_notify(Observable<sf::Event>& subject, sf::Event const& event)
 {
-  switch (event.type) {
-  case sf::Event::KeyPressed:
-    m_keyboard.at(event.key.code) = true;
-    break;
-  case sf::Event::KeyReleased:
-    m_keyboard.at(event.key.code) = false;
-    break;
-  default:;
+  if (auto key = event.getIf<sf::Event::KeyPressed>()) {
+    m_keyboard.at(static_cast<int>(key->code)) = true;
+  } else if (auto key = event.getIf<sf::Event::KeyReleased>()) {
+    m_keyboard.at(static_cast<int>(key->code)) = false;
   }
 
   update_axis();
@@ -47,7 +45,7 @@ void Input::update_axis()
 
 bool Input::key_pressed(sf::Keyboard::Key key)
 {
-  return m_keyboard.at(key);
+  return m_keyboard.at(static_cast<int>(key));
 }
 
 float Input::get_X_axis()

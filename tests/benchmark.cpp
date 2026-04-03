@@ -1,5 +1,5 @@
-#include "physics/matrix.hpp"
-#include "system/cyclic_iterator.hpp"
+#include "isaac/physics/matrix.hpp"
+#include "isaac/system/cyclic_iterator.hpp"
 
 #include <benchmark/benchmark.h>
 #include <algorithm>

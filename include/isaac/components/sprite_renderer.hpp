@@ -1,13 +1,11 @@
-#ifndef COMPONENTS_SPRITE_RENDERER_HPP
-#define COMPONENTS_SPRITE_RENDERER_HPP
+#ifndef ISAAC_COMPONENTS_SPRITE_RENDERER_HPP
+#define ISAAC_COMPONENTS_SPRITE_RENDERER_HPP
 
-#include "component.hpp"
-#include "render/window_server.hpp"
-#include "system/service_locator.hpp"
+#include "isaac/components/component.hpp"
+#include "isaac/render/window_server.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include <vector>
 
 namespace isaac {
 using Shape_ptr = std::unique_ptr<sf::Shape>;
@@ -29,8 +27,8 @@ Shape* SpriteRenderer::make_shape()
 {
   m_shape         = std::make_unique<Shape>();
   auto bounds     = m_shape->getLocalBounds();
-  m_half_bounds.x = 0.5f * bounds.width;
-  m_half_bounds.y = 0.5f * bounds.height;
+  m_half_bounds.x = 0.5f * bounds.size.x;
+  m_half_bounds.y = 0.5f * bounds.size.y;
   return static_cast<Shape*>(m_shape.get());
 }
 } // namespace isaac

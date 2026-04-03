@@ -1,10 +1,10 @@
-#ifndef SYSTEM_WORLD_HPP
-#define SYSTEM_WORLD_HPP
+#ifndef ISAAC_SYSTEM_WORLD_HPP
+#define ISAAC_SYSTEM_WORLD_HPP
 
-#include "render/window_server.hpp"
-#include "scene/scene_manager.hpp"
-#include "system/observer.hpp"
-#include "physics/physics_2d.hpp"
+#include "isaac/physics/physics_2d.hpp"
+#include "isaac/render/window_server.hpp"
+#include "isaac/scene/scene_manager.hpp"
+#include "isaac/system/observer.hpp"
 
 #include <SFML/System/Clock.hpp>
 

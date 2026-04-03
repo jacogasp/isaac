@@ -4,7 +4,6 @@
 #include <memory>
 
 #include "obstacle.hpp"
-#include "orbiter.hpp"
 #include "player.hpp"
 
 auto create_scene()

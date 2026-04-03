@@ -1,8 +1,7 @@
-#ifndef SCENES_SCENE_HPP
-#define SCENES_SCENE_HPP
+#ifndef ISAAC_SCENES_SCENE_HPP
+#define ISAAC_SCENES_SCENE_HPP
 
-#include "components/game_object.hpp"
-#include <memory>
+#include "isaac/components/game_object.hpp"
 
 namespace isaac {
 class Scene
