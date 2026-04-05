@@ -13,7 +13,8 @@ class RenderWindow;
 namespace isaac {
 
 using Shape_ptr = std::unique_ptr<sf::Shape>;
-class SpriteRenderer : public Component
+
+class ShapeRenderer : public Component
 {
   Shape_ptr m_shape;
   sf::Vector2f m_half_bounds;
@@ -26,7 +27,7 @@ class SpriteRenderer : public Component
 };
 
 template<typename Shape>
-Shape* SpriteRenderer::make_shape()
+Shape* ShapeRenderer::make_shape()
 {
   m_shape         = std::make_unique<Shape>();
   auto bounds     = m_shape->getLocalBounds();

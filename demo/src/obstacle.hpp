@@ -3,7 +3,7 @@
 
 #include <isaac/components/collider_2d.hpp>
 #include <isaac/components/game_object.hpp>
-#include <isaac/components/sprite_renderer.hpp>
+#include <isaac/components/shape_renderer.hpp>
 #include <isaac/physics/collision_shape_2d.hpp>
 #include <isaac/system/logger.hpp>
 #include <isaac/system/service_locator.hpp>
@@ -19,7 +19,7 @@ class Obstacle : public isaac::GameObject
     auto collider = make_component<isaac::Collider2D>();
     collider->set_collision_shape(collision_shape);
 
-    auto renderer = make_component<isaac::SpriteRenderer>();
+    auto renderer = make_component<isaac::ShapeRenderer>();
     auto sprite   = renderer->make_shape<sf::RectangleShape>();
     sprite->setSize({20, 50});
   }

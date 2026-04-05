@@ -2,7 +2,7 @@
 #define ISAAC_DEMO_ORBITER_HPP
 
 #include <isaac/components/game_object.hpp>
-#include <isaac/components/sprite_renderer.hpp>
+#include <isaac/components/shape_renderer.hpp>
 #include <isaac/system/input.hpp>
 #include <isaac/system/logger.hpp>
 #include <isaac/system/service_locator.hpp>
@@ -16,7 +16,7 @@ class Orbiter : public isaac::GameObject
  private:
   void on_start() override
   {
-    auto renderer = make_component<isaac::SpriteRenderer>();
+    auto renderer = make_component<isaac::ShapeRenderer>();
     auto shape    = renderer->make_shape<sf::CircleShape>();
     shape->setRadius(10);
     shape->setFillColor({255, 255, 255});
