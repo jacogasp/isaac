@@ -2,7 +2,6 @@
 #define ISAAC_COMPONENTS_SPRITE_RENDERER_HPP
 
 #include "isaac/components/component.hpp"
-#include "isaac/render/window_server.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <memory>
@@ -18,10 +17,8 @@ class SpriteRenderer : public Component
 {
   Shape_ptr m_shape;
   sf::Vector2f m_half_bounds;
-  WindowServer* m_window_server;
 
  public:
-  void start(GameObject&) override;
   void update(GameObject&) override;
   void draw(GameObject&, sf::RenderWindow&) override;
   template<typename Shape>

@@ -19,7 +19,7 @@ auto create_scene()
 
 int main()
 {
-  isaac::Isaac isaac{{800, 600}, "Isaac Demo"};
+  isaac::Isaac isaac{"Isaac Demo", {800, 600}};
   isaac.set_scene(create_scene());
   isaac.run();
   return 0;

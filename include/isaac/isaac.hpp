@@ -1,32 +1,42 @@
 #ifndef ISAAC_ISAAC_HPP
 #define ISAAC_ISAAC_HPP
 
-#include "system/world.hpp"
+#include "isaac/physics/physics_2d.hpp"
+#include "isaac/render/window_server.hpp"
+#include "isaac/scene/scene_manager.hpp"
+#include "isaac/system/logger.hpp"
+#include "isaac/system/world.hpp"
 
 #include <SFML/System/Vector2.hpp>
 
 #include <memory>
 #include <string>
-#include <string_view>
 
 namespace isaac {
+
 class Scene;
-class World;
+class SceneManager;
+class PhysicsServer2D;
+
 class Isaac
 {
-  World m_world{};
-  std::string m_name{"Isaac Engine"};
-  sf::Vector2u m_window_size;
+  Logger& m_logger;
+  WindowServer m_window_server;
+  PhysicsServer2D& m_physics_server;
+  SceneManager m_scene_manager;
+  World m_world;
+
   std::unique_ptr<Scene> m_main_scene;
 
  public:
-  Isaac(sf::Vector2u window_size, std::string_view name);
+  Isaac(std::string name, sf::Vector2u window_size);
+  ~Isaac();
+
   void set_scene(std::unique_ptr<Scene> scene);
   int run();
 
  private:
   bool start();
-  void cleanup();
 };
 } // namespace isaac
 #endif

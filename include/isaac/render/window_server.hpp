@@ -13,7 +13,7 @@ class WindowServer
  public:
   WindowServer(sf::Vector2u const& window_size, std::string const& title);
   ~WindowServer();
-  sf::RenderWindow* get_window();
+  sf::RenderWindow& get_window();
 };
 } // namespace isaac
 #endif

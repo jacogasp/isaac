@@ -28,8 +28,8 @@ WindowServer::~WindowServer()
   logger->debug("Shutdown WindowServer");
 }
 
-sf::RenderWindow* WindowServer::get_window()
+sf::RenderWindow& WindowServer::get_window()
 {
-  return &m_window;
+  return m_window;
 }
 } // namespace isaac
