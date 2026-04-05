@@ -1,6 +1,7 @@
 #include "isaac/components/sprite_renderer.hpp"
 #include "isaac/components/game_object.hpp"
-#include "isaac/system/service_locator.hpp"
+
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include <cassert>
 
@@ -17,8 +18,10 @@ void SpriteRenderer::update(GameObject& game_object)
   assert(window && "window server is null");
   auto const position = game_object.get_position();
   m_shape->setPosition(sf::Vector2{position.x, position.y} - m_half_bounds);
-  if (m_shape) {
-    window->draw(*m_shape);
-  }
+}
+
+void SpriteRenderer::draw(GameObject& game_object, sf::RenderWindow& window)
+{
+  window.draw(*m_shape);
 }
 } // namespace isaac

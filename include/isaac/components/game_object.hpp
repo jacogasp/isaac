@@ -9,10 +9,16 @@
 #include <unordered_set>
 #include <vector>
 
+namespace sf {
+class RenderWindow;
+}
+
 namespace isaac {
+
 class Collision2D;
 using GameObject_ptr = std::unique_ptr<GameObject>;
 using Component_ptr  = std::unique_ptr<Component>;
+
 class GameObject : public BaseObject
 {
   vec3 m_position{};
@@ -25,7 +31,7 @@ class GameObject : public BaseObject
  private:
   void start();
   void update(float delta);
-  void draw();
+  void draw(sf::RenderWindow& window);
   void destroy_queued();
   [[nodiscard]] std::vector<GameObject_ptr>& get_children();
 

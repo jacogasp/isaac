@@ -2,8 +2,15 @@
 #define ISAAC_COMPONENTS_COMPONENT_HPP
 
 #include "isaac/internal/base_object.hpp"
+
+namespace sf {
+class RenderWindow;
+}
+
 namespace isaac {
+
 class GameObject;
+
 class Component : public BaseObject
 {
   GameObject* m_parent;
@@ -14,6 +21,7 @@ class Component : public BaseObject
   [[nodiscard]] GameObject* game_object();
   virtual void start(GameObject& game_object) {};
   virtual void update(GameObject& game_object) {};
+  virtual void draw(GameObject& game_object, sf::RenderWindow& window) {};
 };
 } // namespace isaac
 #endif

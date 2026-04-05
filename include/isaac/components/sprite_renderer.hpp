@@ -7,7 +7,12 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+namespace sf {
+class RenderWindow;
+}
+
 namespace isaac {
+
 using Shape_ptr = std::unique_ptr<sf::Shape>;
 class SpriteRenderer : public Component
 {
@@ -18,6 +23,7 @@ class SpriteRenderer : public Component
  public:
   void start(GameObject&) override;
   void update(GameObject&) override;
+  void draw(GameObject&, sf::RenderWindow&) override;
   template<typename Shape>
   Shape* make_shape();
 };

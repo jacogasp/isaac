@@ -22,10 +22,12 @@ void GameObject::update(float delta)
                         [delta](auto& child) { child->update(delta); });
 }
 
-void GameObject::draw()
+void GameObject::draw(sf::RenderWindow& window)
 {
   on_draw();
-  std::ranges::for_each(m_children, [](auto& child) { child->draw(); });
+  std::ranges::for_each(m_components,
+                        [&](auto& child) { child->draw(*this, window); });
+  std::ranges::for_each(m_children, [&](auto& child) { child->draw(window); });
 }
 
 void GameObject::destroy_queued()
