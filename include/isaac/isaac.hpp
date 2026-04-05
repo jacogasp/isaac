@@ -29,7 +29,8 @@ class Isaac
   std::unique_ptr<Scene> m_main_scene;
 
  public:
-  Isaac(std::string name, sf::Vector2u window_size);
+  Isaac(std::string name, sf::Vector2u window_size,
+        Logger::Level = Logger::Level::INFO);
   ~Isaac();
 
   void set_scene(std::unique_ptr<Scene> scene);
