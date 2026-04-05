@@ -44,6 +44,7 @@ class Input : public Observer<sf::Event>
   static void update_axis();
 
  public:
+  Input();
   [[nodiscard]] static bool key_pressed(sf::Keyboard::Key key);
   [[nodiscard]] static float get_X_axis();
   [[nodiscard]] static float get_Y_axis();

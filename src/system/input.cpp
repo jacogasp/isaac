@@ -1,8 +1,17 @@
 #include "isaac/system/input.hpp"
+#include "isaac/system/logger.hpp"
+#include "isaac/system/service_locator.hpp"
 
 #include <SFML/Window/Event.hpp>
 
 namespace isaac {
+
+Input::Input()
+{
+  auto logger = ServiceLocator<Logger>::get_service();
+  logger->debug("Input initialized");
+}
+
 void Input::on_notify(Observable<sf::Event>& subject, sf::Event const& event)
 {
   if (auto key = event.getIf<sf::Event::KeyPressed>()) {
