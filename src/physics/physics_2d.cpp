@@ -1,49 +1,56 @@
 #include "isaac/physics/physics_2d.hpp"
+#include "isaac/components/collision_object_2d.hpp"
+#include "isaac/components/rigidbody_2d.hpp"
+#include "isaac/system/logger.hpp"
+#include "isaac/system/service_locator.hpp"
 
-#include <algorithm>
+#include <BulletDynamics/Dynamics/btRigidBody.h>
+#include <LinearMath/btIDebugDraw.h>
+#include <LinearMath/btTransform.h>
+#include <btBulletCollisionCommon.h>
 
 namespace isaac {
 
-void PhysicsServer2D::add_collider(Collider2D* collider)
+PhysicsServer2D::PhysicsServer2D()
+    : m_logger(*ServiceLocator<Logger>::get_service())
 {
-  m_colliders.emplace(collider->id(), collider);
+  m_dynamics_world.setGravity({0, k_gravity, 0});
+  m_logger.debug("PhysicsServer2D initialized");
 }
 
-void PhysicsServer2D::remove_collider(std::size_t id)
+PhysicsServer2D::~PhysicsServer2D()
 {
-  m_colliders.erase(id);
+  for (size_t i = 0; i < m_dynamics_world.getNumCollisionObjects(); ++i) {
+    auto obj = m_dynamics_world.getCollisionObjectArray()[i];
+    m_dynamics_world.removeCollisionObject(obj);
+  }
+  m_logger.debug("PhysicServer2D shutdown");
 }
 
-std::optional<Collision2D>
-PhysicsServer2D::resolve_collision(Collider2D& collider)
+void PhysicsServer2D::add_rigid_body(RigidBody2D& body)
 {
-  auto& collision_shape = collider.collision_shape();
-  auto area             = collision_shape.bounds();
-  auto result           = m_quad_tree.query(area);
-  for (auto other : result) {
-    auto other_collider = other->object;
-    if (other_collider == &collider) {
-      continue;
-    }
-    auto& other_shape = other_collider->collision_shape();
-    if (collision_shape.intersects(other_shape)) {
-      Collision2D collision;
-      collision.collider = &collider;
-      collision.other    = other->object;
-      return std::optional{collision};
+  m_dynamics_world.addRigidBody(&body());
+}
+
+void PhysicsServer2D::add_collision_object(CollisionObject2D& object)
+{
+  m_dynamics_world.addCollisionObject(&object());
+}
+
+void PhysicsServer2D::update(float delta)
+{
+  m_dynamics_world.stepSimulation(delta, 10);
+  for (size_t i = 0; i < m_dynamics_world.getNumCollisionObjects(); ++i) {
+    auto obj = m_dynamics_world.getCollisionObjectArray()[i];
+    continue;
+    auto body = btRigidBody::upcast(obj);
+    btTransform transform;
+    if (body && body->getMotionState()) {
+      assert(body->getMotionState());
+      body->getMotionState()->getWorldTransform(transform);
+    } else {
+      transform = obj->getWorldTransform();
     }
   }
-  return std::nullopt;
-}
-
-void PhysicsServer2D::update()
-{
-  m_quad_tree.reset();
-  std::ranges::for_each(m_colliders, [&](auto& collider) {
-    QuadTreeData<Collider2D> data{};
-    data.bounds = collider.second->collision_shape().bounds();
-    data.object = collider.second;
-    m_quad_tree.insert(data);
-  });
 }
 } // namespace isaac

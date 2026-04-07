@@ -19,7 +19,7 @@ auto create_scene()
 
 int main()
 {
-  isaac::Isaac isaac{"Isaac Demo", {800, 600}};
+  isaac::Isaac isaac{"Isaac Demo", {800, 600}, isaac::Logger::Level::DEBUG};
   isaac.set_scene(create_scene());
   isaac.run();
   return 0;

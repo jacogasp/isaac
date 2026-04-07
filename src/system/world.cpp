@@ -74,7 +74,7 @@ void World::input()
 
 void World::update()
 {
-  m_physics_server_2d.update();
+  m_physics_server_2d.update(m_frame_time.asSeconds());
   auto current_scene = m_scene_manager.get_current_scene();
   assert(current_scene && "current scene is null");
   auto& root         = current_scene->root();

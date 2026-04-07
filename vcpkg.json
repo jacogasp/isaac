@@ -1,4 +1,4 @@
 {
   "name": "isaac",
-  "dependencies": ["benchmark", "imgui-sfml"]
+  "dependencies": ["benchmark", "imgui-sfml", "bullet3"]
 }

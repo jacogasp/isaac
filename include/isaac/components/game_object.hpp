@@ -61,8 +61,8 @@ class GameObject : public BaseObject
   template<typename T, typename... Args>
   T* make_child(Args... args);
   [[nodiscard]] std::vector<GameObject_ptr> const& get_children() const;
-  template<typename T>
-  T* make_component();
+  template<typename T, typename... Args>
+  T* make_component(Args... args);
   template<typename T>
   T* get_component() const;
 };
@@ -75,10 +75,10 @@ T* GameObject::make_child(Args... args)
   return static_cast<T*>(m_children.back().get());
 }
 
-template<typename T>
-T* GameObject::make_component()
+template<typename T, typename... Args>
+T* GameObject::make_component(Args... args)
 {
-  m_components.push_back(std::make_unique<T>());
+  m_components.push_back(std::make_unique<T>(args...));
   m_components.back()->m_parent = this;
   return static_cast<T*>(m_components.back().get());
 };

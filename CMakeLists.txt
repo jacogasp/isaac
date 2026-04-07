@@ -18,14 +18,15 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(ImGui-SFML CONFIG REQUIRED)
-
+find_package(Bullet CONFIG REQUIRED)
 
 add_library(libisaac
   src/isaac.cpp
-  src/components/collider_2d.cpp
   src/components/component.cpp
+  src/components/collision_object_2d.cpp
   src/components/game_object.cpp
-  src/components/sprite_renderer.cpp
+  src/components/rigidbody_2d.cpp
+  src/components/shape_renderer.cpp
   src/internal/base_object.cpp
   src/objects/ui/canvas.cpp
   src/physics/collision_2d.cpp
@@ -60,7 +61,7 @@ set_target_properties(libisaac PROPERTIES
 add_subdirectory(tests)
 
 
-target_link_libraries(libisaac PUBLIC ImGui-SFML::ImGui-SFML)
+target_link_libraries(libisaac PUBLIC ImGui-SFML::ImGui-SFML BulletDynamics BulletCollision)
 target_include_directories(libisaac PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
