@@ -26,7 +26,7 @@ btCollisionObject& CollisionObject2D::operator()()
 
 void CollisionObject2D::update(GameObject& go)
 {
-  auto pos = go.get_position();
+  auto pos = go.get_global_position();
   m_collision_object.getWorldTransform().setOrigin({pos.x, pos.y, 0});
 }
 

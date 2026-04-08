@@ -42,7 +42,7 @@ btRigidBody& RigidBody2D::operator()()
 
 void RigidBody2D::start(GameObject& go)
 {
-  auto pos = go.get_position();
+  auto pos = go.get_global_position();
   m_rigid_body.getWorldTransform().setOrigin({pos.x, pos.y, 0});
 }
 
@@ -51,6 +51,6 @@ void RigidBody2D::update(GameObject& go)
   btTransform t;
   m_rigid_body.getMotionState()->getWorldTransform(t);
   auto const& pos = t.getOrigin();
-  go.set_position(vec3{pos.x(), pos.y(), 0.0f});
+  go.set_position({pos.x(), pos.y()});
 }
 } // namespace isaac

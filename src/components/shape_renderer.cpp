@@ -9,12 +9,18 @@ namespace isaac {
 
 void ShapeRenderer::update(GameObject& game_object)
 {
-  auto const position = game_object.get_position();
-  m_shape->setPosition(sf::Vector2{position.x, position.y} - m_half_bounds);
+  auto const go_pos = game_object.get_position();
+  auto const delta  = go_pos - m_last_position;
+  for (auto&& shape : m_shapes) {
+    std::visit([&](auto& s) { s.setPosition(s.getPosition() + delta); }, shape);
+  }
+  m_last_position = go_pos;
 }
 
-void ShapeRenderer::draw(GameObject& game_object, sf::RenderWindow& window)
+void ShapeRenderer::draw(GameObject& _, sf::RenderWindow& window)
 {
-  window.draw(*m_shape);
+  for (auto&& shape : m_shapes) {
+    std::visit([&](auto& s) { window.draw(s); }, shape);
+  }
 }
 } // namespace isaac

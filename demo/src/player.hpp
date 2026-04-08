@@ -17,16 +17,13 @@ class Player : public isaac::GameObject
   {
     // components
     auto shape_renderer = make_component<isaac::ShapeRenderer>();
-    auto shape          = shape_renderer->make_shape<sf::CircleShape>();
-    shape->setRadius(25);
-    shape->setFillColor({255, 255, 255});
+    auto& shape         = shape_renderer->make_shape<sf::CircleShape>(25.0f);
+    shape.setFillColor({255, 255, 0});
 
-    isaac::SphereShape circle{25};
-    make_component<isaac::RigidBody2D>(circle);
     // children
     auto orbiter = make_child<Orbiter>();
     orbiter->set_attractor(*this);
-    set_position({300, 150, 0});
+    set_position({400 - shape.getRadius(), 300 - shape.getRadius()});
   }
 
   void on_update(float delta) override

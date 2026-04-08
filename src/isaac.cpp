@@ -8,7 +8,6 @@
 #include "isaac/system/service_locator.hpp"
 
 #include <cstdlib>
-#include <iostream>
 
 #include <SFML/System/Vector2.hpp>
 #include <sfml/Window/Event.hpp>
@@ -47,20 +46,14 @@ int Isaac::run()
 
 bool Isaac::start()
 {
-  try {
-    if (m_main_scene == nullptr) {
-      throw std::runtime_error(
-          "cannot found any scene to display. Please load a scene with "
-          "Isaac::add_scene before starting the game");
-    }
-    m_scene_manager.set_scene(std::move(m_main_scene));
-    m_world.start();
-    m_logger.info("Game started");
-  } catch (std::exception& e) {
-    std::cerr << "cannot initialize game engine because of an error "
-              << e.what() << '\n';
-    return false;
+  if (m_main_scene == nullptr) {
+    throw std::runtime_error(
+        "cannot found any scene to display. Please load a scene with "
+        "Isaac::add_scene before starting the game");
   }
+  m_scene_manager.set_scene(std::move(m_main_scene));
+  m_world.start();
+  m_logger.info("Game started");
   return true;
 }
 } // namespace isaac

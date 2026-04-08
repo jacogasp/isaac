@@ -16,10 +16,10 @@ void GameObject::start()
 void GameObject::update(float delta)
 {
   on_update(delta);
+  update_children_positions();
   std::ranges::for_each(m_components,
                         [this](auto& comp) { comp->update(*this); });
-  std::ranges::for_each(m_children,
-                        [delta](auto& child) { child->update(delta); });
+  std::ranges::for_each(m_children, [&](auto& child) { child->update(delta); });
 }
 
 void GameObject::draw(sf::RenderWindow& window)
@@ -68,18 +68,39 @@ void GameObject::destroy()
   m_parent->m_child_ids_to_erase.emplace(id());
 }
 
-void GameObject::set_position(vec3 const& position)
+void GameObject::set_position(sf::Vector2f const& position)
 {
-  std::ranges::for_each(m_children, [&](auto& child) {
-    auto const offset = get_position() - child->get_position();
-    child->set_position(position + offset);
-  });
-  m_position = position;
+  if (m_parent) {
+    m_transform.global_position = m_parent->get_global_position() + position;
+  } else {
+    m_transform.global_position = position;
+  }
+  m_transform.position = position;
+  update_children_positions();
 }
 
-vec3 GameObject::get_position() const
+sf::Vector2f GameObject::get_position() const
 {
-  return m_position;
+  return m_transform.position;
+}
+
+void GameObject::set_global_position(sf::Vector2f const& position)
+{
+  m_transform.global_position = position;
+  update_children_positions();
+}
+
+sf::Vector2f GameObject::get_global_position() const
+{
+  return m_transform.global_position;
+}
+
+void GameObject::update_children_positions() const
+{
+  std::ranges::for_each(m_children, [&](auto& child) {
+    child->set_global_position(m_transform.global_position
+                               + child->get_position());
+  });
 }
 
 std::vector<GameObject_ptr>& GameObject::get_children()

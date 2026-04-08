@@ -3,7 +3,7 @@
 
 #include "isaac/components/component.hpp"
 #include "isaac/internal/base_object.hpp"
-#include "isaac/physics/vector.hpp"
+#include "isaac/physics/transform.hpp"
 
 #include <cstddef>
 #include <unordered_set>
@@ -21,7 +21,7 @@ using Component_ptr  = std::unique_ptr<Component>;
 
 class GameObject : public BaseObject
 {
-  vec3 m_position{};
+  Transform m_transform{};
   bool m_enabled = false;
   std::vector<GameObject_ptr> m_children{};
   std::vector<Component_ptr> m_components{};
@@ -56,10 +56,14 @@ class GameObject : public BaseObject
   void disable();
   [[nodiscard]] bool enabled() const;
   void destroy();
-  void set_position(vec3 const& position);
-  [[nodiscard]] vec3 get_position() const;
+  void set_position(sf::Vector2f const& position);
+  [[nodiscard]] sf::Vector2f get_position() const;
+  void set_global_position(sf::Vector2f const& position);
+  [[nodiscard]] sf::Vector2f get_global_position() const;
+  void update_children_positions() const;
+
   template<typename T, typename... Args>
-  T* make_child(Args... args);
+  T* make_child(Args&&... args);
   [[nodiscard]] std::vector<GameObject_ptr> const& get_children() const;
   template<typename T, typename... Args>
   T* make_component(Args... args);
@@ -68,7 +72,7 @@ class GameObject : public BaseObject
 };
 
 template<typename T, typename... Args>
-T* GameObject::make_child(Args... args)
+T* GameObject::make_child(Args&&... args)
 {
   m_children.push_back(std::make_unique<T>(args...));
   m_children.back()->m_parent = this;

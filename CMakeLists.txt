@@ -37,6 +37,7 @@ add_library(libisaac
   src/physics/physics_2d.cpp
   src/physics/utility.cpp
   src/physics/vector.cpp
+  src/physics/transform.cpp
   src/render/window_server.cpp
   src/scene/scene.cpp
   src/scene/scene_manager.cpp
