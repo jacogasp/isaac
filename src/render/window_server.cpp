@@ -9,9 +9,10 @@
 #include <cstdlib>
 
 namespace isaac {
+
 WindowServer::WindowServer(sf::Vector2u const& window_size,
                            std::string const& title)
-    : m_window(sf::VideoMode(window_size), title)
+    : m_window{sf::VideoMode{window_size}, title}
 {
   m_window.setFramerateLimit(Defaults::k_max_fps);
   if (!ImGui::SFML::Init(m_window)) {
@@ -32,4 +33,5 @@ sf::RenderWindow& WindowServer::get_window()
 {
   return m_window;
 }
+
 } // namespace isaac

@@ -4,6 +4,7 @@
 #include "isaac/physics/physics_2d.hpp"
 #include "isaac/render/window_server.hpp"
 #include "isaac/scene/scene_manager.hpp"
+#include "isaac/system/input.hpp"
 #include "isaac/system/logger.hpp"
 #include "isaac/system/world.hpp"
 
@@ -20,10 +21,11 @@ class PhysicsServer2D;
 
 class Isaac
 {
-  Logger& m_logger;
-  WindowServer m_window_server;
-  PhysicsServer2D& m_physics_server;
-  SceneManager m_scene_manager;
+  std::unique_ptr<Logger> m_logger;
+  std::unique_ptr<WindowServer> m_window_server;
+  std::unique_ptr<PhysicsServer2D> m_physics_server;
+  std::unique_ptr<SceneManager> m_scene_manager;
+  std::unique_ptr<Input> m_input;
   World m_world;
 
   std::unique_ptr<Scene> m_main_scene;

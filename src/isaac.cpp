@@ -15,18 +15,18 @@
 namespace isaac {
 
 Isaac::Isaac(std::string name, sf::Vector2u window_size, Logger::Level level)
-    : m_logger{*ServiceLocator<Logger>::register_service(level)}
-    , m_window_server{window_size, std::move(name)}
-    , m_physics_server{*ServiceLocator<PhysicsServer2D>::register_service()}
-    , m_scene_manager{}
-    , m_world{m_window_server, m_scene_manager, m_physics_server}
-{
-  ServiceLocator<Input>::register_service();
-}
+    : m_logger{ServiceLocator<Logger>::register_service(level)}
+    , m_window_server{ServiceLocator<WindowServer>::register_service(
+          window_size, std::move(name))}
+    , m_physics_server{ServiceLocator<PhysicsServer2D>::register_service()}
+    , m_scene_manager{ServiceLocator<SceneManager>::register_service()}
+    , m_input{ServiceLocator<Input>::register_service()}
+    , m_world{*m_window_server, *m_scene_manager, *m_physics_server}
+{}
 
 Isaac::~Isaac()
 {
-  m_logger.info("Closing Isaac game");
+  m_logger->info("Closing Isaac game");
 }
 
 void Isaac::set_scene(std::unique_ptr<Scene> scene)
@@ -51,9 +51,9 @@ bool Isaac::start()
         "cannot found any scene to display. Please load a scene with "
         "Isaac::add_scene before starting the game");
   }
-  m_scene_manager.set_scene(std::move(m_main_scene));
+  m_scene_manager->set_scene(std::move(m_main_scene));
   m_world.start();
-  m_logger.info("Game started");
+  m_logger->info("Game started");
   return true;
 }
 } // namespace isaac

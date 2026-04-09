@@ -9,7 +9,7 @@ namespace isaac {
 template<typename T>
 class ServiceLocator
 {
-  inline static std::unique_ptr<T> m_service;
+  inline static T* m_service;
 
  public:
   static T* get_service()
@@ -18,19 +18,15 @@ class ServiceLocator
       auto msg = std::format("service '{}' not found", typeid(T).name());
       throw std::runtime_error(msg);
     }
-    return m_service.get();
+    return m_service;
   }
 
   template<typename... Args>
-  static T* register_service(Args... args)
+  static std::unique_ptr<T> register_service(Args... args)
   {
-    m_service = std::make_unique<T>(args...);
-    return m_service.get();
-  }
-
-  static void release()
-  {
-    m_service.release();
+    auto service = std::make_unique<T>(args...);
+    m_service    = service.get();
+    return service;
   }
 };
 } // namespace isaac
