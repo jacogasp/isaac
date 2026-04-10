@@ -37,7 +37,7 @@ void Logger::log(std::string_view const& msg, Level log_level) const
     return;
   auto current_time = get_current_time();
   auto const message =
-      std::format("[{}] - {} - {}", current_time, k_levels[log_level], msg);
+      std::format("[{}] - {:<5} - {}", current_time, k_levels[log_level], msg);
 
 #ifdef USE_STDERR
   std::cerr << message << '\n';
