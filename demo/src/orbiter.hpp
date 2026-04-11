@@ -27,10 +27,8 @@ class Orbiter : public isaac::GameObject
     constexpr float radius    = 100.0f;
     constexpr float frequency = 3.0f;
     static float t            = 0;
-    auto position             = m_attractor->get_position();
-    position.x += std::sin(t * frequency) * radius;
-    position.y += std::cos(t * frequency) * radius;
-    set_position(position);
+    set_position({std::sin(t * frequency) * radius, //
+                  std::cos(t * frequency) * radius});
     t += delta;
 
     if (isaac::Input::key_pressed(sf::Keyboard::Key::K)) {

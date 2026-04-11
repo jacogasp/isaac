@@ -1,56 +1,40 @@
 #include "isaac/components/rigidbody_2d.hpp"
-
+#include "isaac/components/game_object.hpp"
+#include "isaac/physics/collision_shape_2d.hpp"
 #include "isaac/physics/physics_2d.hpp"
-#include "isaac/physics/vector.hpp"
 #include "isaac/system/service_locator.hpp"
 
-#include <BulletCollision/CollisionShapes/btBox2dShape.h>
-#include <BulletDynamics/Dynamics/btRigidBody.h>
-#include <LinearMath/btDefaultMotionState.h>
-#include <LinearMath/btMotionState.h>
-#include <LinearMath/btTransform.h>
-#include <LinearMath/btVector3.h>
+#include <box2d/box2d.h>
 
 namespace isaac {
 
-btRigidBody make_rigid_body(CollisionShape2D& collision_shape,
-                            btMotionState& motion_state, float mass)
+RigidBody2D::RigidBody2D(CollisionShape collision_shape)
+    : CollisionBody2D{std::move(collision_shape)}
 {
-  auto shape = std::visit(CollisionShape2DVisitor{}, collision_shape);
-  btVector3 local_inertia{0.0f, 0.0f, 0.0f};
-
-  shape->calculateLocalInertia(mass, local_inertia);
-  btRigidBody::btRigidBodyConstructionInfo rb_info{mass, &motion_state, shape,
-                                                   local_inertia};
-  return btRigidBody{rb_info};
-}
-
-RigidBody2D::RigidBody2D(CollisionShape2D collision_shape)
-    : m_collision_shape{std::move(collision_shape)}
-    , m_rigid_body{make_rigid_body(m_collision_shape, m_motion_state, m_mass)}
-{
-  m_rigid_body.setRestitution(1.0);
-  m_rigid_body.setFriction(0.9f);
-  m_rigid_body.setDamping(0.2f, 0.f);
-  ServiceLocator<PhysicsServer2D>::get_service()->add_rigid_body(*this);
-}
-
-btRigidBody& RigidBody2D::operator()()
-{
-  return m_rigid_body;
+  m_body_def.type = b2_dynamicBody;
+  m_body_id =
+      ServiceLocator<PhysicsServer2D>::get_service()->create_body(*this);
+  std::visit(
+      [&](auto& shape) {
+        auto shape_id = shape.make_shape(m_body_id);
+        b2Shape_SetRestitution(shape_id, 0.9f);
+      },
+      m_collision_shape);
 }
 
 void RigidBody2D::start(GameObject& go)
 {
-  auto pos = go.get_global_position();
-  m_rigid_body.getWorldTransform().setOrigin({pos.x, pos.y, 0});
+  auto transform = b2Body_GetTransform(m_body_id);
+  b2Vec2 pos{go.get_global_position().x, go.get_global_position().y};
+  auto rotation = b2Body_GetRotation(m_body_id);
+  b2Vec2 offset{m_offset.x, m_offset.y};
+  b2Body_SetTransform(m_body_id, pos + offset, rotation);
 }
 
 void RigidBody2D::update(GameObject& go)
 {
-  btTransform t;
-  m_rigid_body.getMotionState()->getWorldTransform(t);
-  auto const& pos = t.getOrigin();
-  go.set_position({pos.x(), pos.y()});
+  auto transform = b2Body_GetTransform(m_body_id);
+  sf::Vector2 pos{transform.p.x, transform.p.y};
+  go.set_global_position(pos - m_offset);
 }
 } // namespace isaac

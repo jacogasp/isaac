@@ -24,7 +24,7 @@ void GameObject::update(float delta)
 
 void GameObject::draw(sf::RenderWindow& window)
 {
-  on_draw();
+  on_draw(window);
   std::ranges::for_each(m_components,
                         [&](auto& child) { child->draw(*this, window); });
   std::ranges::for_each(m_children, [&](auto& child) { child->draw(window); });

@@ -8,18 +8,30 @@
 #include <isaac/system/logger.hpp>
 #include <isaac/system/service_locator.hpp>
 
-struct Wall
+struct WallData
 {
   sf::Vector2f position;
   sf::Vector2f size;
+};
+
+class Wall : public isaac::GameObject
+{
+ public:
+  Wall(WallData data)
+  {
+    isaac::Box2DShape box{data.size};
+    auto collider       = make_component<isaac::CollisionObject2D>(box);
+    auto shape_renderer = make_component<isaac::ShapeRenderer>();
+    auto& shape = shape_renderer->make_shape<sf::RectangleShape>(data.size);
+    set_position(data.position);
+  }
 };
 
 class Obstacle : public isaac::GameObject
 {
   auto static constexpr s_wall_thickness = 10;
   auto static constexpr s_wall_length    = 400;
-
-  std::vector<Wall> m_walls{
+  std::vector<WallData> m_walls{
       {{0, 0}, {s_wall_thickness, s_wall_length}},             // left
       {{s_wall_length, 0}, {s_wall_thickness, s_wall_length}}, // right
       {{0, 0}, {s_wall_length, s_wall_thickness}},             // top
@@ -30,11 +42,9 @@ class Obstacle : public isaac::GameObject
   void on_start() override
   {
     for (auto&& wall : m_walls) {
-      auto shape_renderer = make_component<isaac::ShapeRenderer>();
-      auto& shape = shape_renderer->make_shape<sf::RectangleShape>(wall.size);
-      shape.setPosition(wall.position);
+      make_child<Wall>(wall);
     }
-    set_position({100, 100});
+    set_position({200, 100});
   }
 
   void on_destroy() override

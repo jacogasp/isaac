@@ -9,10 +9,9 @@ namespace isaac {
 
 void ShapeRenderer::update(GameObject& game_object)
 {
-  auto const go_pos = game_object.get_position();
-  auto const delta  = go_pos - m_last_position;
+  auto const go_pos = game_object.get_global_position();
   for (auto&& shape : m_shapes) {
-    std::visit([&](auto& s) { s.setPosition(s.getPosition() + delta); }, shape);
+    std::visit([&](auto& s) { s.setPosition(go_pos); }, shape);
   }
   m_last_position = go_pos;
 }

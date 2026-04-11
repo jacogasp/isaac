@@ -52,6 +52,7 @@ void World::game_loop()
   m_logger.debug("Start game loop");
   while (m_window.isOpen()) {
     m_frame_time = m_frame_clock.restart();
+    m_window.clear();
     input();
     update();
     render();
@@ -92,7 +93,6 @@ void World::render()
   auto& game_objects = root.get_children();
 
   ImGui::SFML::Update(m_window, m_frame_time);
-  m_window.clear();
   std::ranges::for_each(
       game_objects, [&](auto& game_object) { game_object->draw(m_window); });
 
