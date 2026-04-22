@@ -43,8 +43,6 @@ void World::start()
   }
   auto scene         = m_scene_manager.get_current_scene();
   auto& game_objects = scene->root().get_children();
-  // start all game objects and their children/components
-  std::ranges::for_each(game_objects, [](auto& go) { go->start(); });
 }
 
 void World::game_loop()

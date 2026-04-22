@@ -76,6 +76,7 @@ T* GameObject::make_child(Args&&... args)
 {
   m_children.push_back(std::make_unique<T>(args...));
   m_children.back()->m_parent = this;
+  m_children.back()->start();
   return static_cast<T*>(m_children.back().get());
 }
 
@@ -84,6 +85,7 @@ T* GameObject::make_component(Args... args)
 {
   m_components.push_back(std::make_unique<T>(args...));
   m_components.back()->m_parent = this;
+  m_components.back()->start(*this);
   return static_cast<T*>(m_components.back().get());
 };
 
