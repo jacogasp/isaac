@@ -1,5 +1,5 @@
-#ifndef ISAAC_DEMO_OBSTACLE_HPP
-#define ISAAC_DEMO_OBSTACLE_HPP
+#ifndef ISAAC_DEMO_WALLS_HPP
+#define ISAAC_DEMO_WALLS_HPP
 
 #include <isaac/components/collision_object_2d.hpp>
 #include <isaac/components/game_object.hpp>
@@ -27,16 +27,14 @@ class Wall : public isaac::GameObject
   }
 };
 
-class Obstacle : public isaac::GameObject
+class Walls : public isaac::GameObject
 {
   auto static constexpr s_wall_thickness = 10;
-  auto static constexpr s_wall_length    = 400;
   std::vector<WallData> m_walls{
-      {{0, 0}, {s_wall_thickness, s_wall_length}},             // left
-      {{s_wall_length, 0}, {s_wall_thickness, s_wall_length}}, // right
-      {{0, 0}, {s_wall_length, s_wall_thickness}},             // top
-      {{0, s_wall_length - s_wall_thickness},
-       {s_wall_length, s_wall_thickness}}, // bottom
+      {{0, 0}, {s_wall_thickness, 550}},                      // left
+      {{750, 0}, {s_wall_thickness, 550}},                    // right
+      {{0, 0}, {750, s_wall_thickness}},                      // top
+      {{0, 550 - s_wall_thickness}, {750, s_wall_thickness}}, // bottom
   };
 
   void on_start() override
@@ -44,13 +42,7 @@ class Obstacle : public isaac::GameObject
     for (auto&& wall : m_walls) {
       make_child<Wall>(wall);
     }
-    set_position({200, 100});
-  }
-
-  void on_destroy() override
-  {
-    auto logger = isaac::ServiceLocator<isaac::Logger>::get_service();
-    logger->info("Obstacle destroyed!");
+    set_position({25, 25});
   }
 };
-#endif // ISAAC_DEMO_OBSTACLE_HPP
+#endif // ISAAC_DEMO_WALLS_HPP

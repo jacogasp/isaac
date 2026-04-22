@@ -4,23 +4,31 @@
 #include <memory>
 
 #include "hud.hpp"
-#include "obstacle.hpp"
+#include "obstacles.hpp"
 #include "player.hpp"
+#include "spawner.hpp"
+#include "walls.hpp"
 
-auto create_scene()
+class MainScene : public isaac::Scene
 {
-  auto scene = std::make_unique<isaac::Scene>();
-  auto& root = scene->root();
-  root.make_child<Player>();
-  root.make_child<Obstacle>();
-  root.make_child<Hud>();
-  return scene;
-}
+ public:
+  MainScene()
+  {
+    auto& root = this->root();
+    // root.make_child<Player>();
+    root.make_child<Walls>();
+    root.make_child<Obstacles>();
+    auto hud     = root.make_child<Hud>();
+    auto spawner = root.make_child<Spawner>();
+    spawner->add_observer(*hud);
+    hud->add_observer(*spawner);
+  }
+};
 
 int main()
 {
   isaac::Isaac isaac{"Isaac Demo", {800, 600}, isaac::Logger::Level::DEBUG};
-  isaac.set_scene(create_scene());
+  isaac.set_scene(std::make_unique<MainScene>());
   isaac.run();
   return 0;
 }

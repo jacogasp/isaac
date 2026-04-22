@@ -29,6 +29,7 @@ class Player : public isaac::GameObject
     auto orbiter = make_child<Orbiter>();
     orbiter->set_attractor(*this);
     set_position({400 - shape.getRadius(), 300 - shape.getRadius()});
+    isaac::ServiceLocator<isaac::Logger>::get_service()->info("Player started");
   }
 
   void on_update(float delta) override
