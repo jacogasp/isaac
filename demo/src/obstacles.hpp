@@ -14,8 +14,8 @@ class Obstacle : public isaac::GameObject
   void on_start() override
   {
     make_component<isaac::CollisionObject2D>(isaac::Box2DShape{{15, 15}});
-    auto sr = make_component<isaac::ShapeRenderer>();
-    sr->make_shape<sf::RectangleShape>(sf::Vector2f{15, 15});
+    auto& sr = make_component<isaac::ShapeRenderer>();
+    sr.make_shape<sf::RectangleShape>(sf::Vector2f{15, 15});
   }
 };
 
@@ -26,8 +26,8 @@ class Obstacles : public isaac::GameObject
     auto const size = 75.f;
     for (int i = 1; i <= 8; ++i) {
       for (int j = 0; j < i; ++j) {
-        auto obstacle = make_child<Obstacle>();
-        obstacle->set_position({j * size - size * 0.5f * (i - 1), i * 40.0f});
+        auto& obstacle = make_child<Obstacle>();
+        obstacle.set_position({j * size - size * 0.5f * (i - 1), i * 40.0f});
       }
     }
     set_position({400 - 7.5f, 150});

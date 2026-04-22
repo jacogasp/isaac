@@ -20,9 +20,9 @@ class Wall : public isaac::GameObject
   Wall(WallData data)
   {
     isaac::Box2DShape box{data.size};
-    auto collider       = make_component<isaac::CollisionObject2D>(box);
-    auto shape_renderer = make_component<isaac::ShapeRenderer>();
-    auto& shape = shape_renderer->make_shape<sf::RectangleShape>(data.size);
+    auto& collider       = make_component<isaac::CollisionObject2D>(box);
+    auto& shape_renderer = make_component<isaac::ShapeRenderer>();
+    auto& shape = shape_renderer.make_shape<sf::RectangleShape>(data.size);
     set_position(data.position);
   }
 };

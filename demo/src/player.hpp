@@ -18,16 +18,16 @@ class Player : public isaac::GameObject
   void on_start() override
   {
     // components
-    auto shape_renderer = make_component<isaac::ShapeRenderer>();
-    auto& shape         = shape_renderer->make_shape<sf::CircleShape>(25.0f);
+    auto& shape_renderer = make_component<isaac::ShapeRenderer>();
+    auto& shape          = shape_renderer.make_shape<sf::CircleShape>(25.0f);
     shape.setFillColor({255, 255, 0});
 
-    auto rigid_body =
+    auto& rigid_body =
         make_component<isaac::RigidBody2D>(isaac::Circle2DShape{25.0f});
 
     // children
-    auto orbiter = make_child<Orbiter>();
-    orbiter->set_attractor(*this);
+    auto& orbiter = make_child<Orbiter>();
+    orbiter.set_attractor(*this);
     set_position({400 - shape.getRadius(), 300 - shape.getRadius()});
     isaac::ServiceLocator<isaac::Logger>::get_service()->info("Player started");
   }

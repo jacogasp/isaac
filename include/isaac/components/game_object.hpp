@@ -63,42 +63,29 @@ class GameObject : public BaseObject
   void update_children_positions() const;
 
   template<typename T, typename... Args>
-  T* make_child(Args&&... args);
+  T& make_child(Args&&... args);
   [[nodiscard]] std::vector<GameObject_ptr> const& get_children() const;
   template<typename T, typename... Args>
-  T* make_component(Args... args);
-  template<typename T>
-  T* get_component() const;
+  T& make_component(Args... args);
 };
 
 template<typename T, typename... Args>
-T* GameObject::make_child(Args&&... args)
+T& GameObject::make_child(Args&&... args)
 {
   m_children.push_back(std::make_unique<T>(args...));
   m_children.back()->m_parent = this;
   m_children.back()->start();
-  return static_cast<T*>(m_children.back().get());
+  return static_cast<T&>(*m_children.back().get());
 }
 
 template<typename T, typename... Args>
-T* GameObject::make_component(Args... args)
+T& GameObject::make_component(Args... args)
 {
   m_components.push_back(std::make_unique<T>(args...));
   m_components.back()->m_parent = this;
   m_components.back()->start(*this);
-  return static_cast<T*>(m_components.back().get());
+  return static_cast<T&>(*m_components.back().get());
 };
 
-template<typename T>
-T* GameObject::get_component() const
-{
-  for (auto& component : m_components) {
-    auto found = dynamic_cast<T*>(component.get());
-    if (found) {
-      return found;
-    }
-  }
-  return nullptr;
-}
 } // namespace isaac
 #endif

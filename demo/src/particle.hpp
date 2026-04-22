@@ -26,9 +26,9 @@ class Particle : public isaac::GameObject
   void on_start() override
   {
     m_rigid_body =
-        make_component<isaac::RigidBody2D>(isaac::Circle2DShape{10.0f});
-    auto sr     = make_component<isaac::ShapeRenderer>();
-    auto& shape = sr->make_shape<sf::CircleShape>(10.0f);
+        &make_component<isaac::RigidBody2D>(isaac::Circle2DShape{10.0f});
+    auto& sr    = make_component<isaac::ShapeRenderer>();
+    auto& shape = sr.make_shape<sf::CircleShape>(10.0f);
     shape.setFillColor(RandomColor{});
     auto rnd = []() { return static_cast<float>(std::rand() % 100 - 50); };
     set_position({rnd(), rnd()});

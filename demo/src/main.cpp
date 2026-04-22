@@ -18,10 +18,10 @@ class MainScene : public isaac::Scene
     // root.make_child<Player>();
     root.make_child<Walls>();
     root.make_child<Obstacles>();
-    auto hud     = root.make_child<Hud>();
-    auto spawner = root.make_child<Spawner>();
-    spawner->add_observer(*hud);
-    hud->add_observer(*spawner);
+    auto& hud     = root.make_child<Hud>();
+    auto& spawner = root.make_child<Spawner>();
+    spawner.add_observer(hud);
+    hud.add_observer(spawner);
   }
 };
 

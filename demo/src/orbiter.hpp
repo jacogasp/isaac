@@ -16,8 +16,8 @@ class Orbiter : public isaac::GameObject
  private:
   void on_start() override
   {
-    auto renderer = make_component<isaac::ShapeRenderer>();
-    auto& shape   = renderer->make_shape<sf::CircleShape>();
+    auto& renderer = make_component<isaac::ShapeRenderer>();
+    auto& shape    = renderer.make_shape<sf::CircleShape>();
     shape.setRadius(10);
     shape.setFillColor({255, 255, 255});
   }

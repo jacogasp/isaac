@@ -32,8 +32,8 @@ class Spawner
 
   void spawn()
   {
-    auto child = make_child<Particle>();
-    child->get_rigid_body()->set_restitution(m_restitution);
+    auto& child = make_child<Particle>();
+    child.get_rigid_body()->set_restitution(m_restitution);
     notify({});
   }
 

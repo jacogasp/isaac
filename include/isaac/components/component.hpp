@@ -17,7 +17,12 @@ class Component : public BaseObject
   friend class GameObject;
 
  public:
-  virtual ~Component() = default;
+  Component()                           = default;
+  Component(Component const&)           = delete;
+  Component(Component&&)                = default;
+  Component operator=(Component const&) = delete;
+  virtual ~Component()                  = default;
+
   [[nodiscard]] GameObject* game_object();
   virtual void start(GameObject& game_object) {};
   virtual void update(GameObject& game_object) {};
