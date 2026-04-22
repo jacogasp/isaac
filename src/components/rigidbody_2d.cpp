@@ -14,12 +14,6 @@ RigidBody2D::RigidBody2D(CollisionShape collision_shape)
   m_body_def.type = b2_dynamicBody;
   m_body_id =
       ServiceLocator<PhysicsServer2D>::get_service()->create_body(*this);
-  std::visit(
-      [&](auto& shape) {
-        auto shape_id = shape.make_shape(m_body_id);
-        b2Shape_SetRestitution(shape_id, 0.9f);
-      },
-      m_collision_shape);
 }
 
 void RigidBody2D::start(GameObject& go)
@@ -37,4 +31,15 @@ void RigidBody2D::update(GameObject& go)
   sf::Vector2 pos{transform.p.x, transform.p.y};
   go.set_global_position(pos - m_offset);
 }
+
+void RigidBody2D::set_restitution(float restitution)
+{
+  std::visit(
+      [&](auto& shape) {
+        auto shape_id = shape.make_shape(m_body_id);
+        b2Shape_SetRestitution(shape_id, restitution);
+      },
+      m_collision_shape);
+}
+
 } // namespace isaac

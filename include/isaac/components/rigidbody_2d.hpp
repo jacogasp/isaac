@@ -19,6 +19,7 @@ class RigidBody2D : public CollisionBody2D
 
   void start(GameObject&) override;
   void update(GameObject&) override;
+  void set_restitution(float restitution);
 };
 } // namespace isaac
 
