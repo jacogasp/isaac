@@ -1,11 +1,11 @@
 #ifndef SYSTEM_INPUT_HPP
 #define SYSTEM_INPUT_HPP
 
-#include "isaac/physics/vector.hpp"
 #include "isaac/system/observer.hpp"
 
-#include "SFML/Window/Event.hpp"
-#include "SFML/Window/Keyboard.hpp"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 #include <array>
 #include <unordered_map>
@@ -19,7 +19,7 @@ using keys_t     = std::vector<sf::Keyboard::Key>;
 class Input : public Observer<sf::Event>
 {
   inline static keyboard_t m_keyboard;
-  inline static vec2 m_axis;
+  inline static sf::Vector2f m_axis;
 
   enum Action
   {
@@ -48,7 +48,7 @@ class Input : public Observer<sf::Event>
   [[nodiscard]] static bool key_pressed(sf::Keyboard::Key key);
   [[nodiscard]] static float get_X_axis();
   [[nodiscard]] static float get_Y_axis();
-  [[nodiscard]] static vec2 get_axis();
+  [[nodiscard]] static sf::Vector2f get_axis();
 };
 } // namespace isaac
 #endif

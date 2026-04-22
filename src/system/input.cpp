@@ -2,6 +2,7 @@
 #include "isaac/system/logger.hpp"
 #include "isaac/system/service_locator.hpp"
 
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 
 namespace isaac {
@@ -67,7 +68,7 @@ float Input::get_Y_axis()
   return m_axis.y;
 }
 
-vec2 Input::get_axis()
+sf::Vector2f Input::get_axis()
 {
   return m_axis;
 }

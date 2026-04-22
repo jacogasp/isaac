@@ -1,11 +1,5 @@
-add_executable(physics-tests physics.t.cpp)
+add_executable(example-tests example.t.cpp)
 
-target_link_libraries(physics-tests PRIVATE libisaac)
+target_link_libraries(example-tests PRIVATE libisaac)
 
-add_test(physics-test physics-test)
-
-find_package(benchmark REQUIRED)
-if (benchmark_FOUND)
-    add_executable(bench benchmark.cpp)
-    target_link_libraries(bench benchmark::benchmark libisaac)
-endif()
+add_test(example-test example-test)
