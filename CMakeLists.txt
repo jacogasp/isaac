@@ -29,7 +29,6 @@ add_library(libisaac
   src/components/rigidbody_2d.cpp
   src/components/shape_renderer.cpp
   src/internal/base_object.cpp
-  src/objects/ui/canvas.cpp
   src/physics/collision_2d.cpp
   src/physics/collision_shape_2d.cpp
   src/physics/geometry_2d.cpp
